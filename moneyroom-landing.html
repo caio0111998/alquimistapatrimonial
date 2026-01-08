@@ -1,0 +1,616 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MONEYROOM - O Outro Lado do Mercado Financeiro</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            background-color: #0a0a0a;
+            color: #e5e5e5;
+            line-height: 1.7;
+            font-size: 17px;
+        }
+        
+        .container {
+            max-width: 680px;
+            margin: 0 auto;
+            padding: 40px 24px;
+        }
+        
+        .logo {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        
+        .logo img {
+            width: 180px;
+            height: auto;
+        }
+        
+        h1 {
+            font-size: 28px;
+            font-weight: 700;
+            color: #ffffff;
+            line-height: 1.3;
+            margin-bottom: 24px;
+        }
+        
+        h2 {
+            font-size: 20px;
+            font-weight: 600;
+            color: #ffffff;
+            margin-top: 48px;
+            margin-bottom: 20px;
+            padding-top: 24px;
+            border-top: 1px solid #333;
+        }
+        
+        h3 {
+            font-size: 17px;
+            font-weight: 600;
+            color: #ffffff;
+            margin-top: 32px;
+            margin-bottom: 12px;
+        }
+        
+        p {
+            margin-bottom: 16px;
+            color: #d4d4d4;
+        }
+        
+        .highlight {
+            color: #ffffff;
+            font-weight: 600;
+        }
+        
+        .subheadline {
+            font-size: 19px;
+            color: #a3a3a3;
+            font-weight: 400;
+            margin-bottom: 32px;
+        }
+        
+        .warning {
+            background: #1c1c1c;
+            border-left: 3px solid #eab308;
+            padding: 20px;
+            margin: 32px 0;
+            border-radius: 0 8px 8px 0;
+        }
+        
+        .list-negative {
+            list-style: none;
+            margin: 20px 0;
+        }
+        
+        .list-negative li {
+            padding: 8px 0;
+            padding-left: 28px;
+            position: relative;
+            color: #a3a3a3;
+        }
+        
+        .list-negative li::before {
+            content: "•";
+            position: absolute;
+            left: 8px;
+            color: #737373;
+        }
+        
+        .card {
+            background: #141414;
+            border: 1px solid #262626;
+            border-radius: 12px;
+            padding: 24px;
+            margin: 20px 0;
+        }
+        
+        .card-title {
+            color: #ffffff;
+            font-weight: 600;
+            font-size: 16px;
+            margin-bottom: 12px;
+        }
+        
+        .card-desc {
+            color: #d4d4d4;
+            font-size: 15px;
+        }
+        
+        .investimento {
+            background: linear-gradient(135deg, #1a1a1a 0%, #262626 100%);
+            border: 1px solid #404040;
+            border-radius: 16px;
+            padding: 32px 24px;
+            margin: 32px 0;
+            text-align: center;
+        }
+        
+        .investimento-label {
+            color: #737373;
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 16px;
+        }
+        
+        .investimento-valor {
+            font-size: 42px;
+            font-weight: 700;
+            color: #ffffff;
+            margin-bottom: 16px;
+        }
+        
+        .investimento-desc {
+            color: #a3a3a3;
+            margin-bottom: 8px;
+        }
+        
+        .requisitos {
+            background: #0f1414;
+            border: 1px solid #1e3a3a;
+            border-radius: 12px;
+            padding: 24px;
+            margin: 32px 0;
+        }
+        
+        .requisitos-title {
+            color: #22c55e;
+            font-weight: 600;
+            margin-bottom: 16px;
+        }
+        
+        .requisitos-item {
+            padding: 8px 0;
+            color: #d4d4d4;
+            border-bottom: 1px solid #1e3a3a;
+        }
+        
+        .requisitos-item:last-child {
+            border-bottom: none;
+        }
+        
+        .cta {
+            display: block;
+            background: #ffffff;
+            color: #0a0a0a;
+            text-align: center;
+            padding: 18px 32px;
+            border-radius: 12px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 17px;
+            margin: 32px 0;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        
+        .cta:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(255,255,255,0.1);
+        }
+        
+        .profile-box {
+            background: #1a1a1a;
+            border: 1px solid #333;
+            border-radius: 12px;
+            padding: 24px;
+            margin: 32px 0;
+        }
+        
+        .profile-title {
+            color: #ffffff;
+            font-weight: 600;
+            margin-bottom: 12px;
+        }
+        
+        .quote {
+            border-left: 3px solid #404040;
+            padding-left: 20px;
+            margin: 24px 0;
+            font-style: italic;
+            color: #a3a3a3;
+        }
+        
+        .footer-logo {
+            text-align: center;
+            margin-top: 60px;
+            padding-top: 40px;
+            border-top: 1px solid #333;
+        }
+        
+        .footer-logo img {
+            width: 120px;
+            height: auto;
+            opacity: 0.5;
+        }
+        
+        @media (max-width: 480px) {
+            body {
+                font-size: 16px;
+            }
+            
+            .container {
+                padding: 32px 20px;
+            }
+            
+            h1 {
+                font-size: 24px;
+            }
+            
+            h2 {
+                font-size: 18px;
+            }
+            
+            .investimento-valor {
+                font-size: 36px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        
+        <div class="logo">
+            <img src="https://i.postimg.cc/NMCNW5LR/image.png" alt="MoneyRoom Logo">
+        </div>
+        
+        <h1>O MERCADO QUE VOCÊ CONHECE NÃO É O MERCADO QUE FUNCIONA.</h1>
+        
+        <p class="subheadline">O outro lado do mercado financeiro</p>
+        
+        <p>Se você já tentou ganhar dinheiro no mercado financeiro, provavelmente passou por pelo menos um desses caminhos:</p>
+        
+        <ul class="list-negative">
+            <li>Seguiu um guru</li>
+            <li>Comprou um curso</li>
+            <li>Entrou em um grupo de sinais</li>
+            <li>Tentou "aprender a operar"</li>
+            <li>Mudou de estratégia várias vezes</li>
+        </ul>
+        
+        <p>E, mesmo assim, os resultados nunca foram consistentes.</p>
+        
+        <p><span class="highlight">Não porque você seja incapaz.</span></p>
+        <p><span class="highlight">Mas porque te venderam a parte errada do jogo.</span></p>
+        
+        <h2>O MERCADO QUE APARECE PARA O VAREJO</h2>
+        
+        <ul class="list-negative">
+            <li>Promessas</li>
+            <li>Narrativas</li>
+            <li>"Métodos infalíveis"</li>
+            <li>Pessoas vendendo certezas</li>
+        </ul>
+        
+        <p style="margin-top: 24px;"><span class="highlight">O mercado que realmente funciona opera de outra forma.</span></p>
+        
+        <h2>O OUTRO LADO DO MERCADO</h2>
+        
+        <p>Existe um lado do mercado financeiro onde:</p>
+        
+        <p>Ninguém promete ganhos rápidos.<br>
+        Ninguém opera no "achismo".<br>
+        Ninguém depende de emoção ou feeling.</p>
+        
+        <p><span class="highlight">Estratégias são criadas, testadas e ajustadas.</span><br>
+        Quando algo para de funcionar, é pausado ou desligado.</p>
+        
+        <p>Esse lado não vive de prever o mercado.<br>
+        <span class="highlight">Ele vive de processo.</span></p>
+        
+        <p>É assim que bancos, fundos e grandes gestores operam.</p>
+        
+        <p><span class="highlight">O MoneyRoom nasce exatamente para abrir esse lado do mercado para quem nunca teve acesso a ele.</span></p>
+        
+        <h2>QUEM EU SOU — O ALQUIMISTA PATRIMONIAL</h2>
+        
+        <p>Durante muito tempo, eu observei um padrão claro:</p>
+        
+        <p>Pessoas inteligentes, com dinheiro, disciplina e vontade…<br>
+        perdendo tempo e capital em soluções rasas.</p>
+        
+        <p>Vi gente:</p>
+        
+        <ul class="list-negative">
+            <li>Pulando de estratégia em estratégia</li>
+            <li>Ficando dependente de terceiros</li>
+            <li>Operando sem entender o todo</li>
+            <li>Confundindo movimento de mercado com oportunidade real</li>
+        </ul>
+        
+        <p style="margin-top: 24px;">Foi aí que entendi algo simples:</p>
+        
+        <p><span class="highlight">O problema não era o mercado.<br>
+        Era a forma como as pessoas estavam sendo colocadas dentro dele.</span></p>
+        
+        <div class="quote">
+            O papel do Alquimista Patrimonial não é prometer ouro.<br>
+            É transformar caos em método.
+        </div>
+        
+        <p>O MoneyRoom é a materialização disso.</p>
+        
+        <h2>O QUE É O MONEYROOM</h2>
+        
+        <p>O MoneyRoom é uma sala privada onde você tem acesso a estratégias de mercado que funcionam com regras claras, executadas de forma automatizada, com acompanhamento e ajustes ao longo do tempo.</p>
+        
+        <p><span class="highlight">Você não precisa:</span></p>
+        
+        <ul class="list-negative">
+            <li>Saber programar</li>
+            <li>Entender algoritmos</li>
+            <li>Ser trader profissional</li>
+        </ul>
+        
+        <p style="margin-top: 24px;"><span class="highlight">Você precisa apenas operar dentro do sistema, seguindo regras.</span></p>
+        
+        <p>Aqui:</p>
+        
+        <p>A emoção sai.<br>
+        O improviso sai.<br>
+        O "vou tentar" sai.</p>
+        
+        <p><span class="highlight">Entra o método.</span></p>
+        
+        <h2>COMO FUNCIONA NA PRÁTICA</h2>
+        
+        <div class="card">
+            <div class="card-title">• Estratégias Automatizadas</div>
+            <div class="card-desc">Modelos que operam o mercado seguindo regras, não emoções.</div>
+        </div>
+        
+        <div class="card">
+            <div class="card-title">• Implementação Acompanhada</div>
+            <div class="card-desc">Você não recebe algo solto. Tudo é implementado com acompanhamento para garantir que funcione corretamente.</div>
+        </div>
+        
+        <div class="card">
+            <div class="card-title">• Acompanhamento Próximo</div>
+            <div class="card-desc">O ambiente é fechado, sem multidão, sem ruído. Aqui, o foco é execução correta.</div>
+        </div>
+        
+        <div class="card">
+            <div class="card-title">• Ajustes e Manutenção</div>
+            <div class="card-desc">Quando o mercado muda: ajustamos, pausamos ou desligamos estratégias. Isso é normal. Quem não aceita isso, não deveria estar no mercado.</div>
+        </div>
+        
+        <div class="card">
+            <div class="card-title">• Organização do Seu Portfólio</div>
+            <div class="card-desc">As estratégias são organizadas conforme seu perfil (conservador, moderado ou arrojado), seu capital e seu objetivo. Você deixa de olhar operações isoladas e passa a enxergar o todo.</div>
+        </div>
+        
+        <h2>POR QUE ISSO É DIFERENTE</h2>
+        
+        <p>Porque aqui você não compra:</p>
+        
+        <ul class="list-negative">
+            <li>Promessa</li>
+            <li>Fórmula mágica</li>
+            <li>Conteúdo motivacional</li>
+        </ul>
+        
+        <p style="margin-top: 24px;"><span class="highlight">Você entra em um ambiente onde:</span></p>
+        
+        <p>O foco é sobreviver no mercado.<br>
+        O risco é tratado com seriedade.<br>
+        O método vem antes do ganho.<br>
+        O processo vem antes do resultado.</p>
+        
+        <p><span class="highlight">Esse é o lado do mercado que quase ninguém mostra.</span></p>
+        
+        <h2>PARA QUEM O MONEYROOM FAZ SENTIDO</h2>
+        
+        <div class="profile-box">
+            <div class="profile-title">O MoneyRoom é para quem:</div>
+            <p style="margin-bottom: 8px;">Cansou de soluções rasas</p>
+            <p style="margin-bottom: 8px;">Quer algo mais sólido e estruturado</p>
+            <p style="margin-bottom: 8px;">Entende que consistência leva tempo</p>
+            <p style="margin-bottom: 0;">Prefere método a promessa</p>
+        </div>
+        
+        <h2>PARA QUEM NÃO FAZ SENTIDO</h2>
+        
+        <div class="warning">
+            <p style="margin-bottom: 8px;">Não faz sentido se você:</p>
+            <p style="margin-bottom: 8px;">Quer dinheiro rápido</p>
+            <p style="margin-bottom: 8px;">Precisa de alguém dizendo o que fazer o tempo todo</p>
+            <p style="margin-bottom: 8px;">Não aceita regras</p>
+            <p style="margin-bottom: 8px;">Não lida bem com oscilações</p>
+            <p style="margin-bottom: 0; margin-top: 16px;"><span class="highlight">Aqui não existe ilusão.</span></p>
+        </div>
+        
+        <h2>REQUISITOS PARA ENTRAR</h2>
+        
+        <div class="requisitos">
+            <div class="requisitos-title">A entrada não é automática. E isso é proposital.</div>
+            <div class="requisitos-item">Capital mínimo: USD 2.000</div>
+            <div class="requisitos-item">Compromisso em seguir regras</div>
+            <div class="requisitos-item">Conversa prévia para entender seu perfil</div>
+        </div>
+        
+        <h2>INVESTIMENTO</h2>
+        
+        <div class="investimento">
+            <div class="investimento-label">Acesso ao MoneyRoom</div>
+            <div class="investimento-valor">R$ 5.000</div>
+            <div class="investimento-desc">Pix • USDT • Cartão (até 12x com juros)</div>
+        </div>
+        
+        <p style="text-align: center; color: #737373; font-size: 15px;">Você não está pagando por informação.<br>
+        Está pagando por acesso a um sistema e a um ambiente que quase ninguém tem.</p>
+        
+        <div class="divider"></div>
+        
+        <h2>CONSIDERAÇÃO FINAL</h2>
+        
+        <p>O MoneyRoom não é para todos.<br>
+        E nunca foi pensado para ser.</p>
+        
+        <p><span class="highlight">Ele existe para quem quer sair do jogo raso e entrar no lado sério do mercado financeiro.</span></p>
+        
+        <a href="https://wa.me/5548974000428?text=MONEYROOM" class="cta">PRÓXIMO PASSO →</a>
+        
+        <p style="text-align: center; color: #737373; font-size: 14px; margin-top: 16px;">A conversa serve para entender se o MoneyRoom realmente é para o seu perfil.</p>
+        
+        <div class="footer-logo">
+            <img src="https://i.postimg.cc/NMCNW5LR/image.png" alt="MoneyRoom">
+        </div>
+        
+    </div>
+    
+    <script>
+        (function() {
+            var SPEED = 12;
+            var PAUSE = 250;
+            
+            var container = document.querySelector('.container');
+            var walker = document.createTreeWalker(
+                container,
+                NodeFilter.SHOW_ELEMENT,
+                null,
+                false
+            );
+            
+            var elementsToType = [];
+            var tagsToAnimate = ['H1','H2','H3','P','SPAN','LI','DIV'];
+            var classesToSkip = ['container','warning','card','investimento','requisitos','profile-box','quote','logo'];
+            
+            var node;
+            while (node = walker.nextNode()) {
+                var dominated = tagsToAnimate.indexOf(node.tagName) > -1;
+                var isLeaf = node.children.length === 0 || 
+                             node.classList.contains('highlight') ||
+                             node.classList.contains('card-title') ||
+                             node.classList.contains('card-desc') ||
+                             node.classList.contains('investimento-label') ||
+                             node.classList.contains('investimento-valor') ||
+                             node.classList.contains('investimento-desc') ||
+                             node.classList.contains('requisitos-title') ||
+                             node.classList.contains('requisitos-item') ||
+                             node.classList.contains('profile-title') ||
+                             node.classList.contains('subheadline') ||
+                             node.classList.contains('logo');
+                
+                var shouldSkip = false;
+                for (var i = 0; i < classesToSkip.length; i++) {
+                    if (node.classList.contains(classesToSkip[i])) {
+                        shouldSkip = true;
+                        break;
+                    }
+                }
+                
+                if ((dominated || isLeaf) && !shouldSkip && node.textContent.trim().length > 0) {
+                    var alreadyCovered = false;
+                    for (var j = 0; j < elementsToType.length; j++) {
+                        if (elementsToType[j].contains(node) && elementsToType[j] !== node) {
+                            alreadyCovered = true;
+                            break;
+                        }
+                    }
+                    
+                    if (!alreadyCovered && (isLeaf || node.tagName === 'H1' || node.tagName === 'H2' || node.tagName === 'H3' || node.tagName === 'P' || node.tagName === 'LI')) {
+                        elementsToType.push(node);
+                    }
+                }
+            }
+            
+            var finalElements = [];
+            for (var i = 0; i < elementsToType.length; i++) {
+                var el = elementsToType[i];
+                var isContained = false;
+                for (var j = 0; j < finalElements.length; j++) {
+                    if (finalElements[j].contains(el) && finalElements[j] !== el) {
+                        isContained = true;
+                        break;
+                    }
+                    if (el.contains(finalElements[j]) && el !== finalElements[j]) {
+                        finalElements.splice(j, 1);
+                        j--;
+                    }
+                }
+                if (!isContained) {
+                    finalElements.push(el);
+                }
+            }
+            
+            for (var i = 0; i < finalElements.length; i++) {
+                var el = finalElements[i];
+                el.setAttribute('data-original', el.innerHTML);
+                el.innerHTML = '';
+                el.style.opacity = '0';
+            }
+            
+            var currentIdx = 0;
+            var locked = false;
+            
+            function typeOneElement(el, done) {
+                var html = el.getAttribute('data-original');
+                var pos = 0;
+                el.style.opacity = '1';
+                el.innerHTML = '';
+                
+                function tick() {
+                    if (pos < html.length) {
+                        if (html.charAt(pos) === '<') {
+                            var end = html.indexOf('>', pos);
+                            if (end !== -1) {
+                                pos = end + 1;
+                            } else {
+                                pos++;
+                            }
+                        } else {
+                            pos++;
+                        }
+                        el.innerHTML = html.substring(0, pos);
+                        setTimeout(tick, SPEED);
+                    } else {
+                        el.innerHTML = html;
+                        setTimeout(done, PAUSE);
+                    }
+                }
+                
+                tick();
+            }
+            
+            function tryTypeNext() {
+                if (locked) return;
+                if (currentIdx >= finalElements.length) return;
+                
+                var el = finalElements[currentIdx];
+                var rect = el.getBoundingClientRect();
+                var visible = rect.top < window.innerHeight - 20;
+                
+                if (visible && el.style.opacity === '0') {
+                    locked = true;
+                    typeOneElement(el, function() {
+                        locked = false;
+                        currentIdx++;
+                        tryTypeNext();
+                    });
+                }
+            }
+            
+            setTimeout(tryTypeNext, 500);
+            
+            var scrollLock = false;
+            window.addEventListener('scroll', function() {
+                if (scrollLock) return;
+                scrollLock = true;
+                setTimeout(function() {
+                    scrollLock = false;
+                    tryTypeNext();
+                }, 100);
+            });
+            
+        })();
+    </script>
+</body>
+</html>
