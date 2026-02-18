@@ -1,0 +1,665 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="noindex, nofollow" />
+  <title>Aplicação Privada</title>
+
+  <!-- Fontes -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+
+  <style>
+    /* ─── Reset & Tokens ─────────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:        #0b0b0e;
+      --surface:   #111117;
+      --border:    #222230;
+      --gold:      #c9a96e;
+      --gold-dim:  #9a7a4a;
+      --text:      #e8e4dd;
+      --muted:     #6b6875;
+      --error:     #c0392b;
+      --radius:    6px;
+      --max-w:     520px;
+      --transition: 0.3s cubic-bezier(.4,0,.2,1);
+    }
+
+    html, body {
+      min-height: 100%;
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 300;
+      line-height: 1.6;
+    }
+
+    /* Grain texture */
+    body::before {
+      content: '';
+      position: fixed; inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+      pointer-events: none; z-index: 0;
+    }
+
+    /* ─── Layout ──────────────────────────────────────────────────── */
+    .shell {
+      position: relative; z-index: 1;
+      min-height: 100svh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 32px 20px;
+    }
+
+    .card {
+      width: 100%;
+      max-width: var(--max-w);
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: clamp(28px, 6vw, 52px);
+      box-shadow: 0 32px 80px rgba(0,0,0,.5);
+    }
+
+    /* ─── Logo / Header ───────────────────────────────────────────── */
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 40px;
+    }
+    .brand-mark {
+      width: 28px; height: 28px;
+      border: 1.5px solid #c0392b;
+      background: transparent;
+      border-radius: 50%;
+      display: grid; place-items: center;
+    }
+    .brand-mark svg { width: 12px; fill: #c0392b; }
+    .brand-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.05rem;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+      color: var(--gold);
+    }
+
+    /* ─── Progress ────────────────────────────────────────────────── */
+    .progress-track {
+      height: 2px;
+      background: var(--border);
+      border-radius: 2px;
+      margin-bottom: 36px;
+      overflow: hidden;
+    }
+    .progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--gold-dim), var(--gold));
+      border-radius: 2px;
+      transition: width 0.5s cubic-bezier(.4,0,.2,1);
+    }
+    .step-counter {
+      font-size: .72rem;
+      letter-spacing: .12em;
+      color: var(--muted);
+      text-transform: uppercase;
+      margin-bottom: 10px;
+    }
+
+    /* ─── Question ────────────────────────────────────────────────── */
+    .question {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(1.5rem, 4vw, 2rem);
+      font-weight: 300;
+      line-height: 1.3;
+      margin-bottom: 28px;
+      color: var(--text);
+    }
+
+    /* ─── Inputs ──────────────────────────────────────────────────── */
+    .input-wrap { position: relative; }
+
+    input[type="text"],
+    input[type="email"],
+    input[type="tel"] {
+      width: 100%;
+      background: transparent;
+      border: none;
+      border-bottom: 1.5px solid var(--border);
+      color: var(--text);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 1.05rem;
+      font-weight: 300;
+      padding: 10px 0 10px;
+      outline: none;
+      transition: border-color var(--transition);
+      border-radius: 0;
+    }
+    input:focus { border-bottom-color: var(--gold); }
+    input::placeholder { color: var(--muted); }
+    input.invalid { border-bottom-color: var(--error) !important; }
+
+    /* ─── Option cards ────────────────────────────────────────────── */
+    .options {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .option {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 14px 18px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      cursor: pointer;
+      transition: border-color var(--transition), background var(--transition);
+      user-select: none;
+    }
+    .option:hover { border-color: var(--gold-dim); background: rgba(201,169,110,.04); }
+    .option.selected {
+      border-color: var(--gold);
+      background: rgba(201,169,110,.08);
+    }
+    .option-dot {
+      width: 18px; height: 18px;
+      border-radius: 50%;
+      border: 1.5px solid var(--border);
+      flex-shrink: 0;
+      transition: border-color var(--transition), background var(--transition);
+      display: grid; place-items: center;
+    }
+    .option.selected .option-dot {
+      border-color: var(--gold);
+      background: var(--gold);
+    }
+    .option.selected .option-dot::after {
+      content: '';
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: var(--bg);
+    }
+    .option-label { font-size: .95rem; }
+
+    /* ─── Error ───────────────────────────────────────────────────── */
+    .field-error {
+      font-size: .78rem;
+      color: var(--error);
+      margin-top: 6px;
+      min-height: 18px;
+      transition: opacity var(--transition);
+    }
+
+    /* ─── Buttons ─────────────────────────────────────────────────── */
+    .btn-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 36px;
+      gap: 12px;
+    }
+
+    .btn {
+      font-family: 'DM Sans', sans-serif;
+      font-size: .82rem;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      cursor: pointer;
+      border-radius: var(--radius);
+      border: none;
+      transition: opacity var(--transition), transform var(--transition);
+      padding: 12px 28px;
+    }
+    .btn:active { transform: scale(.97); }
+    .btn:disabled { opacity: .35; cursor: not-allowed; }
+
+    .btn-primary {
+      background: var(--gold);
+      color: #0b0b0e;
+      font-weight: 500;
+      min-width: 140px;
+    }
+    .btn-primary:hover:not(:disabled) { opacity: .88; }
+
+    .btn-ghost {
+      background: transparent;
+      color: var(--muted);
+      border: 1px solid var(--border);
+    }
+    .btn-ghost:hover { color: var(--text); border-color: var(--muted); }
+
+    /* ─── Step visibility ─────────────────────────────────────────── */
+    .step { display: none; }
+    .step.active {
+      display: block;
+      animation: fadeUp .35s ease both;
+    }
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(14px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ─── Final screens ───────────────────────────────────────────── */
+    .final-screen {
+      text-align: center;
+      padding: 12px 0;
+    }
+    .final-icon {
+      width: 56px; height: 56px;
+      border: 1.5px solid var(--gold);
+      border-radius: 50%;
+      display: grid; place-items: center;
+      margin: 0 auto 24px;
+    }
+    .final-icon svg { width: 22px; stroke: var(--gold); fill: none; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
+    .final-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.7rem;
+      font-weight: 300;
+      margin-bottom: 12px;
+    }
+    .final-subtitle { color: var(--muted); font-size: .92rem; max-width: 340px; margin: 0 auto 28px; }
+
+    .spinner {
+      width: 20px; height: 20px;
+      border: 2px solid rgba(10,10,10,.3);
+      border-top-color: #0b0b0e;
+      border-radius: 50%;
+      animation: spin .7s linear infinite;
+      display: inline-block; vertical-align: middle;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* Honeypot — completamente invisível */
+    .hp-field { opacity: 0; position: absolute; top: -9999px; left: -9999px; height: 0; width: 0; overflow: hidden; }
+
+    /* ─── Responsive ──────────────────────────────────────────────── */
+    @media (max-width: 480px) {
+      .card { border-radius: 0; border-left: none; border-right: none; min-height: 100svh; }
+      .btn-row { flex-direction: column-reverse; }
+      .btn { width: 100%; text-align: center; }
+    }
+  </style>
+</head>
+
+<body>
+<div class="shell">
+  <div class="card">
+
+    <!-- Marca -->
+    <div class="brand">
+      <div class="brand-mark">
+        <svg viewBox="0 0 12 12"><polygon points="6,1 11,10 1,10"/></svg>
+      </div>
+      <span class="brand-name">Alquimista</span>
+    </div>
+
+    <!-- Barra de progresso -->
+    <div class="progress-track">
+      <div class="progress-fill" id="progressFill" style="width:0%"></div>
+    </div>
+
+    <!-- Formulário multi-step -->
+    <form id="quizForm" novalidate autocomplete="off">
+
+      <!-- Honeypot anti-spam -->
+      <div class="hp-field" aria-hidden="true">
+        <label for="company">Empresa</label>
+        <input type="text" id="company" name="company" tabindex="-1" autocomplete="off" />
+      </div>
+
+      <!-- ── Step 1: Nome ─────────────────────────────────────────── -->
+      <div class="step active" id="step-1">
+        <div class="step-counter">Passo 1 de 6</div>
+        <h2 class="question">Qual é o seu nome completo?</h2>
+        <div class="input-wrap">
+          <input type="text" id="nome" name="nome" placeholder="Seu nome" maxlength="120" autocomplete="name" />
+        </div>
+        <p class="field-error" id="err-nome"></p>
+        <div class="btn-row">
+          <span></span>
+          <button type="button" class="btn btn-primary" onclick="nextStep()">Continuar</button>
+        </div>
+      </div>
+
+      <!-- ── Step 2: Email ────────────────────────────────────────── -->
+      <div class="step" id="step-2">
+        <div class="step-counter">Passo 2 de 6</div>
+        <h2 class="question">Qual é o seu e-mail?</h2>
+        <div class="input-wrap">
+          <input type="email" id="email" name="email" placeholder="seu@email.com" maxlength="120" autocomplete="email" />
+        </div>
+        <p class="field-error" id="err-email"></p>
+        <div class="btn-row">
+          <button type="button" class="btn btn-ghost" onclick="prevStep()">Voltar</button>
+          <button type="button" class="btn btn-primary" onclick="nextStep()">Continuar</button>
+        </div>
+      </div>
+
+      <!-- ── Step 3: Telefone ─────────────────────────────────────── -->
+      <div class="step" id="step-3">
+        <div class="step-counter">Passo 3 de 6</div>
+        <h2 class="question">Seu telefone (com DDD)?</h2>
+        <div class="input-wrap">
+          <input type="tel" id="telefone" name="telefone" placeholder="+55 11 99999-9999" maxlength="25" autocomplete="tel" />
+        </div>
+        <p class="field-error" id="err-telefone"></p>
+        <div class="btn-row">
+          <button type="button" class="btn btn-ghost" onclick="prevStep()">Voltar</button>
+          <button type="button" class="btn btn-primary" onclick="nextStep()">Continuar</button>
+        </div>
+      </div>
+
+      <!-- ── Step 4: Perfil ───────────────────────────────────────── -->
+      <div class="step" id="step-4">
+        <div class="step-counter">Passo 4 de 6</div>
+        <h2 class="question">Você é:</h2>
+        <div class="options" id="opts-perfil">
+          <div class="option" data-field="perfil" data-value="Empresário" onclick="selectOption(this)">
+            <div class="option-dot"></div>
+            <span class="option-label">Empresário</span>
+          </div>
+          <div class="option" data-field="perfil" data-value="CLT" onclick="selectOption(this)">
+            <div class="option-dot"></div>
+            <span class="option-label">CLT</span>
+          </div>
+          <div class="option" data-field="perfil" data-value="Autônomo (PJ)" onclick="selectOption(this)">
+            <div class="option-dot"></div>
+            <span class="option-label">Autônomo (PJ)</span>
+          </div>
+        </div>
+        <p class="field-error" id="err-perfil"></p>
+        <div class="btn-row">
+          <button type="button" class="btn btn-ghost" onclick="prevStep()">Voltar</button>
+          <button type="button" class="btn btn-primary" onclick="nextStep()">Continuar</button>
+        </div>
+      </div>
+
+      <!-- ── Step 5: Investe ──────────────────────────────────────── -->
+      <div class="step" id="step-5">
+        <div class="step-counter">Passo 5 de 6</div>
+        <h2 class="question">Você investe?</h2>
+        <div class="options" id="opts-investe">
+          <div class="option" data-field="investe" data-value="Ainda não" onclick="selectOption(this)">
+            <div class="option-dot"></div>
+            <span class="option-label">Ainda não</span>
+          </div>
+          <div class="option" data-field="investe" data-value="Sim no Brasil" onclick="selectOption(this)">
+            <div class="option-dot"></div>
+            <span class="option-label">Sim, no Brasil</span>
+          </div>
+          <div class="option" data-field="investe" data-value="Internacional" onclick="selectOption(this)">
+            <div class="option-dot"></div>
+            <span class="option-label">Internacional</span>
+          </div>
+        </div>
+        <p class="field-error" id="err-investe"></p>
+        <div class="btn-row">
+          <button type="button" class="btn btn-ghost" onclick="prevStep()">Voltar</button>
+          <button type="button" class="btn btn-primary" onclick="nextStep()">Continuar</button>
+        </div>
+      </div>
+
+      <!-- ── Step 6: Patrimônio ───────────────────────────────────── -->
+      <div class="step" id="step-6">
+        <div class="step-counter">Passo 6 de 6</div>
+        <h2 class="question">Uma média do seu patrimônio:</h2>
+        <div class="options" id="opts-patrimonio">
+          <div class="option" data-field="patrimonio" data-value="< R$ 100 mil" onclick="selectOption(this)">
+            <div class="option-dot"></div>
+            <span class="option-label">&lt; R$ 100 mil</span>
+          </div>
+          <div class="option" data-field="patrimonio" data-value="R$ 100 mil – R$ 500 mil" onclick="selectOption(this)">
+            <div class="option-dot"></div>
+            <span class="option-label">R$ 100 mil – R$ 500 mil</span>
+          </div>
+          <div class="option" data-field="patrimonio" data-value="R$ 500 mil – R$ 2 milhões" onclick="selectOption(this)">
+            <div class="option-dot"></div>
+            <span class="option-label">R$ 500 mil – R$ 2 milhões</span>
+          </div>
+          <div class="option" data-field="patrimonio" data-value="R$ 2 – R$ 10 milhões" onclick="selectOption(this)">
+            <div class="option-dot"></div>
+            <span class="option-label">R$ 2 – R$ 10 milhões</span>
+          </div>
+          <div class="option" data-field="patrimonio" data-value="> R$ 10 milhões" onclick="selectOption(this)">
+            <div class="option-dot"></div>
+            <span class="option-label">&gt; R$ 10 milhões</span>
+          </div>
+        </div>
+        <p class="field-error" id="err-patrimonio"></p>
+        <div class="btn-row">
+          <button type="button" class="btn btn-ghost" onclick="prevStep()">Voltar</button>
+          <button type="button" class="btn btn-primary" id="btnSubmit" onclick="handleSubmit()">Enviar</button>
+        </div>
+      </div>
+
+      <!-- ── Tela de loading ──────────────────────────────────────── -->
+      <div class="step" id="step-loading">
+        <div class="final-screen">
+          <div class="final-icon">
+            <div class="spinner"></div>
+          </div>
+          <p class="final-subtitle">Processando sua aplicação…</p>
+        </div>
+      </div>
+
+      <!-- ── Tela: não qualificado ────────────────────────────────── -->
+      <div class="step" id="step-reject">
+        <div class="final-screen">
+          <div class="final-icon">
+            <svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg>
+          </div>
+          <h2 class="final-title">Obrigado.</h2>
+          <p class="final-subtitle">No momento, esta aplicação é apenas para perfis específicos. Agradecemos seu interesse.</p>
+        </div>
+      </div>
+
+      <!-- ── Tela: erro de rede ────────────────────────────────────── -->
+      <div class="step" id="step-error">
+        <div class="final-screen">
+          <div class="final-icon">
+            <svg viewBox="0 0 24 24"><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/><circle cx="12" cy="12" r="10"/></svg>
+          </div>
+          <h2 class="final-title">Algo saiu errado.</h2>
+          <p class="final-subtitle" id="errMsg">Não foi possível enviar. Tente novamente.</p>
+          <button type="button" class="btn btn-primary" onclick="retrySubmit()">Tentar novamente</button>
+        </div>
+      </div>
+
+    </form>
+  </div>
+</div>
+
+<script>
+/* ─── Configuração ───────────────────────────────────────────────────
+   Qualificação e redirecionamento acontecem direto no frontend.
+   Nenhum backend necessário para este modo.
+────────────────────────────────────────────────────────────────────── */
+const WA_BASE_URL = 'https://api.whatsapp.com/send/?phone=5511983711418&type=phone_number&app_absent=0';
+
+/* ─── Score client-side ───────────────────────────────────────────── */
+function calcScore(a) {
+  const scorePerfil     = { 'Empresário': 30, 'Autônomo (PJ)': 20, 'CLT': 10 };
+  const scoreInveste    = { 'Internacional': 30, 'Sim no Brasil': 20, 'Ainda não': 5 };
+  const scorePatrimonio = {
+    '> R$ 10 milhões': 40, 'R$ 2 – R$ 10 milhões': 30,
+    'R$ 500 mil – R$ 2 milhões': 20, 'R$ 100 mil – R$ 500 mil': 10, '< R$ 100 mil': 0,
+  };
+  return (scorePerfil[a.perfil] || 0) + (scoreInveste[a.investe] || 0) + (scorePatrimonio[a.patrimonio] || 0);
+}
+
+/* ─── Estado ──────────────────────────────────────────────────────── */
+const TOTAL_STEPS = 6;
+let currentStep = 1;
+const answers = {};
+
+/* ─── Validadores ─────────────────────────────────────────────────── */
+const validators = {
+  nome(v) {
+    if (!v || v.trim().length < 3)  return 'Informe seu nome completo (mínimo 3 caracteres).';
+    if (v.trim().length > 120)      return 'Nome muito longo.';
+    return '';
+  },
+  email(v) {
+    const re = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+    if (!v || !re.test(v.trim())) return 'Informe um e-mail válido.';
+    if (v.length > 120)            return 'E-mail muito longo.';
+    return '';
+  },
+  telefone(v) {
+    const digits = (v || '').replace(/\D/g, '');
+    if (digits.length < 8)  return 'Informe um telefone válido com DDD.';
+    if (digits.length > 20) return 'Número muito longo.';
+    return '';
+  },
+  perfil(v)     { return v ? '' : 'Selecione uma opção.'; },
+  investe(v)    { return v ? '' : 'Selecione uma opção.'; },
+  patrimonio(v) { return v ? '' : 'Selecione uma opção.'; },
+};
+
+const stepFields = { 1:'nome', 2:'email', 3:'telefone', 4:'perfil', 5:'investe', 6:'patrimonio' };
+
+/* ─── Progresso ───────────────────────────────────────────────────── */
+function updateProgress() {
+  document.getElementById('progressFill').style.width =
+    ((currentStep - 1) / TOTAL_STEPS * 100) + '%';
+}
+
+/* ─── Navegação ───────────────────────────────────────────────────── */
+function showStep(n) {
+  document.querySelectorAll('.step').forEach(el => el.classList.remove('active'));
+  const el = document.getElementById('step-' + n);
+  if (el) el.classList.add('active');
+}
+
+function nextStep() {
+  const field = stepFields[currentStep];
+  const value = getValue(field);
+  const err   = validators[field](value);
+
+  if (err) {
+    showError(field, err);
+    return;
+  }
+  clearError(field);
+  answers[field] = normalize(field, value);
+  currentStep++;
+  updateProgress();
+  showStep(currentStep);
+  focusFirst(currentStep);
+}
+
+function prevStep() {
+  if (currentStep <= 1) return;
+  currentStep--;
+  updateProgress();
+  showStep(currentStep);
+  focusFirst(currentStep);
+}
+
+/* ─── Helpers de campo ────────────────────────────────────────────── */
+function getValue(field) {
+  const el = document.getElementById(field);
+  if (el) return el.value;
+  // opção selecionada
+  const sel = document.querySelector(`.option.selected[data-field="${field}"]`);
+  return sel ? sel.dataset.value : '';
+}
+
+function normalize(field, value) {
+  if (field === 'telefone') return value.replace(/\D/g, '');
+  if (typeof value === 'string') return value.trim();
+  return value;
+}
+
+function focusFirst(step) {
+  const el = document.querySelector(`#step-${step} input`);
+  if (el) setTimeout(() => el.focus(), 60);
+}
+
+/* ─── Seleção de opções ───────────────────────────────────────────── */
+function selectOption(el) {
+  const field = el.dataset.field;
+  document.querySelectorAll(`.option[data-field="${field}"]`).forEach(o => o.classList.remove('selected'));
+  el.classList.add('selected');
+  clearError(field);
+}
+
+/* ─── Erros ───────────────────────────────────────────────────────── */
+function showError(field, msg) {
+  const el = document.getElementById('err-' + field);
+  if (el) el.textContent = msg;
+  const input = document.getElementById(field);
+  if (input) input.classList.add('invalid');
+}
+
+function clearError(field) {
+  const el = document.getElementById('err-' + field);
+  if (el) el.textContent = '';
+  const input = document.getElementById(field);
+  if (input) input.classList.remove('invalid');
+}
+
+/* ─── Envio (client-side — sem backend) ───────────────────────────── */
+function handleSubmit() {
+  const field = 'patrimonio';
+  const value = getValue(field);
+  const err   = validators[field](value);
+  if (err) { showError(field, err); return; }
+  answers[field] = value;
+
+  // Honeypot check
+  if (document.getElementById('company').value) return;
+
+  const btn = document.getElementById('btnSubmit');
+  btn.disabled = true;
+  btn.innerHTML = '<span class="spinner"></span>';
+
+  currentStep++;
+  updateProgress();
+  showStep('loading');
+
+  // Calcula score e redireciona após breve feedback visual
+  setTimeout(() => {
+    const score     = calcScore(answers);
+    const msg    = 'Quero falar com o Alquimista. Meu nome: ' + answers.nome
+                 + '. Perfil: ' + answers.perfil
+                 + '. Investe: ' + answers.investe
+                 + '. Patrimônio: ' + answers.patrimonio + '.';
+    const waLink = WA_BASE_URL + '&text=' + encodeURIComponent(msg);
+    window.location.href = waLink;
+  }, 900);
+}
+
+function retrySubmit() {
+  currentStep = 6;
+  updateProgress();
+  showStep(6);
+  document.getElementById('btnSubmit').disabled = false;
+  document.getElementById('btnSubmit').textContent = 'Enviar';
+}
+
+function showErrorScreen(msg) {
+  document.getElementById('errMsg').textContent = msg;
+  showStep('error');
+}
+
+/* ─── Enter para avançar ──────────────────────────────────────────── */
+document.addEventListener('keydown', e => {
+  if (e.key === 'Enter' && currentStep <= TOTAL_STEPS) {
+    e.preventDefault();
+    nextStep();
+  }
+});
+
+/* ─── Init ────────────────────────────────────────────────────────── */
+updateProgress();
+focusFirst(1);
+</script>
+</body>
+</html>
