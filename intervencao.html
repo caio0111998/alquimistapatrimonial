@@ -1,520 +1,528 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>INTERVENÇÃO — Auditoria Integral</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>INTERVENÇÃO — Carta de Aplicação</title>
   <meta name="description" content="INTERVENÇÃO: auditoria estratégica integral da sua estrutura patrimonial. Diagnóstico, mapa de vulnerabilidade e plano de ação sem conflito de interesse." />
+
   <style>
     :root{
-      --bg-0:#0B0B0D;     /* preto absoluto */
-      --bg-1:#0F0F12;     /* preto profundo */
-      --bg-2:#14141A;     /* grafite */
-      --bg-3:#1A1A1F;     /* grafite 2 */
-      --line:#2A2A31;     /* cinza institucional */
-      --text:#F2F2F4;     /* branco tipografia */
-      --muted:#B7B7C2;    /* cinza claro */
-      --muted2:#8A8A96;   /* cinza médio */
-      --gold:#BFA36F;     /* dourado fosco */
-      --shadow: 0 20px 60px rgba(0,0,0,.55);
+      --bg:#0B0B0D;
+      --panel:#0F0F12;
+      --paper:#111116;
+      --line:#24242C;
+      --line2:#2E2E38;
+
+      --text:#F2F2F4;
+      --muted:#B7B7C2;
+      --muted2:#8A8A96;
+
+      --gold:#BFA36F;
+
+      --max: 760px; /* coluna estreita de carta */
       --radius: 18px;
-      --max: 1120px;
+      --shadow: 0 26px 80px rgba(0,0,0,.6);
     }
 
     *{ box-sizing:border-box; }
     html,body{ height:100%; }
     body{
       margin:0;
-      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
-      background: radial-gradient(1200px 600px at 20% -10%, rgba(191,163,111,.08), transparent 50%),
-                  radial-gradient(900px 500px at 80% 10%, rgba(255,255,255,.05), transparent 55%),
-                  var(--bg-0);
+      background:
+        radial-gradient(900px 520px at 20% -10%, rgba(191,163,111,.06), transparent 60%),
+        radial-gradient(900px 520px at 80% 10%, rgba(255,255,255,.035), transparent 60%),
+        var(--bg);
       color:var(--text);
-      line-height:1.5;
-      letter-spacing:.2px;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    /* Tipografia "carta" */
+    .serif{
+      font-family: ui-serif, Georgia, "Times New Roman", Times, serif;
+      letter-spacing: .1px;
+    }
+    .sans{
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
+      letter-spacing: .15px;
     }
 
     a{ color:inherit; text-decoration:none; }
-    .wrap{ max-width:var(--max); margin:0 auto; padding:0 22px; }
-    .nav{
-      position:sticky; top:0; z-index:10;
-      backdrop-filter: blur(10px);
-      background: rgba(11,11,13,.72);
-      border-bottom:1px solid rgba(42,42,49,.7);
+    .wrap{
+      max-width: var(--max);
+      margin: 0 auto;
+      padding: 44px 18px 70px;
     }
-    .nav-inner{
-      display:flex; align-items:center; justify-content:space-between;
-      padding:16px 0;
+
+    /* “Página X de Y” */
+    .pager{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+      color: var(--muted2);
+      font-size: 12px;
+      margin-bottom: 18px;
     }
-    .brand{
-      display:flex; align-items:center; gap:10px;
-      font-weight:600; letter-spacing:.8px;
-      text-transform:uppercase;
-      font-size:12px;
-      color:var(--muted);
+    .pager .tag{
+      display:inline-flex;
+      align-items:center;
+      gap:10px;
+      padding:8px 12px;
+      border-radius: 999px;
+      border:1px solid rgba(191,163,111,.28);
+      background: linear-gradient(180deg, rgba(191,163,111,.10), rgba(0,0,0,.12));
+      color: var(--muted);
     }
     .sigil{
-      width:30px; height:30px; border-radius:10px;
-      border:1px solid rgba(191,163,111,.35);
+      width:28px; height:28px;
+      border-radius: 10px;
       display:grid; place-items:center;
-      color:var(--gold);
-      background: linear-gradient(180deg, rgba(191,163,111,.08), rgba(0,0,0,0));
+      border:1px solid rgba(191,163,111,.33);
+      color: var(--gold);
+      background: rgba(191,163,111,.06);
     }
-    .nav-links{ display:flex; gap:18px; color:var(--muted2); font-size:13px; }
-    .nav-links a{ padding:8px 10px; border-radius:12px; }
-    .nav-links a:hover{ background: rgba(255,255,255,.04); color:var(--text); }
 
-    .btn{
-      display:inline-flex; align-items:center; justify-content:center;
-      padding:12px 16px;
-      border-radius:14px;
-      border:1px solid rgba(255,255,255,.14);
-      background: rgba(255,255,255,.04);
-      color:var(--text);
-      font-size:14px;
+    /* “Papel” escuro */
+    .paper{
+      position: relative;
+      background: linear-gradient(180deg, rgba(255,255,255,.03), rgba(255,255,255,.015));
+      border: 1px solid rgba(36,36,44,.9);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      overflow:hidden;
+    }
+
+    /* textura sutil */
+    .paper:before{
+      content:"";
+      position:absolute; inset:0;
+      background:
+        radial-gradient(2px 2px at 15% 10%, rgba(255,255,255,.05), transparent 60%),
+        radial-gradient(2px 2px at 75% 30%, rgba(255,255,255,.03), transparent 60%),
+        radial-gradient(2px 2px at 40% 80%, rgba(255,255,255,.03), transparent 60%);
+      opacity:.35;
+      pointer-events:none;
+    }
+
+    .content{
+      position: relative;
+      padding: 34px 26px 26px;
+    }
+
+    h1{
+      margin:0 0 14px;
+      font-size: 38px;
+      line-height: 1.08;
+      font-weight: 600;
+    }
+    .subline{
+      margin: 0 0 18px;
+      color: var(--muted);
+      font-size: 15px;
+      line-height: 1.55;
+    }
+
+    .availability{
+      display:inline-block;
+      margin: 6px 0 0;
+      color: var(--muted);
+      font-size: 13px;
+      padding: 8px 12px;
+      border-radius: 14px;
+      border:1px solid rgba(46,46,56,.9);
+      background: rgba(0,0,0,.22);
+    }
+
+    /* separador estilo * * * do exemplo */
+    .sep{
+      margin: 20px 0;
+      text-align:center;
+      color: rgba(183,183,194,.65);
+      letter-spacing: 6px;
+      font-size: 13px;
+      user-select:none;
+    }
+
+    .warn{
+      border: 1px solid rgba(191,163,111,.25);
+      background: linear-gradient(180deg, rgba(191,163,111,.10), rgba(0,0,0,.12));
+      padding: 16px 16px;
+      border-radius: 16px;
+      margin: 12px 0 0;
+    }
+    .warn .title{
+      font-size: 12px;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 8px;
+    }
+    .warn p{
+      margin: 0;
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.55;
+    }
+
+    p{
+      margin: 0 0 14px;
+      color: var(--muted);
+      font-size: 15px;
+      line-height: 1.7;
+    }
+    p strong{ color: var(--text); font-weight: 600; }
+
+    .bullets{
+      margin: 12px 0 0;
+      padding: 0;
+      list-style: none;
+      display: grid;
+      gap: 10px;
+    }
+    .bullets li{
+      display:flex;
+      gap: 12px;
+      align-items:flex-start;
+      padding: 12px 12px;
+      border-radius: 16px;
+      border: 1px solid rgba(46,46,56,.85);
+      background: rgba(0,0,0,.20);
+      color: var(--text);
+      font-size: 14px;
+    }
+    .dot{
+      width:10px; height:10px;
+      border-radius:999px;
+      margin-top: 7px;
+      background: rgba(191,163,111,.85);
+      box-shadow: 0 0 0 4px rgba(191,163,111,.12);
+      flex: 0 0 auto;
+    }
+    .bullets .muted{
+      color: var(--muted);
+      font-size: 13px;
+      margin-top: 4px;
+      line-height: 1.55;
+    }
+
+    .section-title{
+      margin: 0 0 10px;
+      color: var(--text);
+      font-size: 16px;
+      font-weight: 650;
+    }
+
+    .pricebox{
+      border: 1px solid rgba(46,46,56,.9);
+      background: rgba(0,0,0,.22);
+      padding: 14px 14px;
+      border-radius: 16px;
+      display:grid;
       gap:10px;
+      margin-top: 12px;
+    }
+    .price-row{
+      display:flex;
+      justify-content:space-between;
+      gap: 12px;
+      padding: 10px 10px;
+      border-radius: 14px;
+      border: 1px solid rgba(36,36,44,.9);
+      background: rgba(0,0,0,.18);
+    }
+    .price-row .left{
+      color: var(--muted);
+      font-size: 13px;
+    }
+    .price-row .right{
+      color: var(--text);
+      font-weight: 650;
+      font-size: 13px;
+      white-space:nowrap;
+    }
+    .fine{
+      color: var(--muted2);
+      font-size: 12px;
+      line-height: 1.55;
+      margin: 0;
+    }
+
+    .cta{
+      margin-top: 16px;
+      display:flex;
+      gap:12px;
+      flex-wrap:wrap;
+      align-items:center;
+    }
+    .btn{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      padding: 12px 14px;
+      border-radius: 14px;
+      border: 1px solid rgba(255,255,255,.14);
+      background: rgba(255,255,255,.04);
+      color: var(--text);
+      font-size: 14px;
+      gap: 10px;
       transition: .2s ease;
       cursor:pointer;
       user-select:none;
     }
-    .btn:hover{ transform: translateY(-1px); background: rgba(255,255,255,.06); border-color: rgba(255,255,255,.22); }
-    .btn:active{ transform: translateY(0px); }
+    .btn:hover{
+      transform: translateY(-1px);
+      background: rgba(255,255,255,.06);
+      border-color: rgba(255,255,255,.20);
+    }
     .btn-primary{
       border-color: rgba(191,163,111,.55);
       background: linear-gradient(180deg, rgba(191,163,111,.18), rgba(191,163,111,.06));
     }
-    .btn-primary:hover{ border-color: rgba(191,163,111,.75); background: linear-gradient(180deg, rgba(191,163,111,.22), rgba(191,163,111,.07)); }
-
-    .hero{
-      padding:70px 0 36px;
-    }
-    .hero-grid{
-      display:grid;
-      grid-template-columns: 1.1fr .9fr;
-      gap:26px;
-      align-items:start;
-    }
-    .kicker{
-      color:var(--gold);
-      font-size:12px;
-      letter-spacing:1px;
-      text-transform:uppercase;
-      margin-bottom:12px;
-    }
-    .h1{
-      font-family: ui-serif, Georgia, "Times New Roman", Times, serif;
-      font-size: 44px;
-      line-height:1.05;
-      margin:0 0 16px;
-      letter-spacing:.2px;
-    }
-    .sub{
-      color:var(--muted);
-      font-size:16px;
-      max-width:52ch;
-      margin:0 0 22px;
-    }
-    .hero-actions{ display:flex; gap:12px; flex-wrap:wrap; align-items:center; }
-    .micro{
-      margin-top:14px;
-      color:var(--muted2);
-      font-size:12px;
+    .btn-primary:hover{
+      border-color: rgba(191,163,111,.75);
     }
 
-    .card{
-      border:1px solid rgba(42,42,49,.9);
-      background: linear-gradient(180deg, rgba(255,255,255,.03), rgba(255,255,255,.01));
-      border-radius: var(--radius);
-      padding:18px;
-      box-shadow: var(--shadow);
-    }
-    .card-title{
-      font-size:12px;
-      text-transform:uppercase;
-      letter-spacing:1px;
-      color:var(--muted2);
-      margin:0 0 10px;
-    }
-    .callout{
-      font-size:14px;
-      color:var(--text);
-      margin:0 0 14px;
-    }
-    .chips{ display:flex; flex-wrap:wrap; gap:10px; }
-    .chip{
-      font-size:12px;
-      padding:8px 10px;
-      border-radius:999px;
-      border:1px solid rgba(42,42,49,.95);
-      background: rgba(0,0,0,.25);
-      color:var(--muted);
-    }
-
-    section.block{
-      padding:44px 0;
-      border-top:1px solid rgba(42,42,49,.55);
-    }
-    .block.dark{ background: linear-gradient(180deg, rgba(15,15,18,.65), rgba(11,11,13,0)); }
-    .block.alt{ background: linear-gradient(180deg, rgba(26,26,31,.55), rgba(11,11,13,0)); }
-
-    .grid-2{
-      display:grid;
-      grid-template-columns:1fr 1fr;
-      gap:22px;
-    }
-
-    .h2{
-      font-family: ui-serif, Georgia, "Times New Roman", Times, serif;
-      font-size:28px;
-      line-height:1.1;
-      margin:0 0 12px;
-    }
-    .p{ margin:0 0 14px; color:var(--muted); }
-    ul.clean{
-      margin:0; padding:0;
-      list-style:none;
-      display:grid;
-      gap:10px;
-    }
-    .li{
-      padding:12px 12px;
-      border-radius:16px;
-      border:1px solid rgba(42,42,49,.8);
-      background: rgba(0,0,0,.22);
-      color:var(--text);
-      display:flex; gap:10px; align-items:flex-start;
-    }
-    .dot{
-      width:10px; height:10px; border-radius:999px; margin-top:5px;
-      background: rgba(191,163,111,.75);
-      box-shadow: 0 0 0 4px rgba(191,163,111,.12);
-      flex:0 0 auto;
-    }
-    .muted{ color:var(--muted2); }
-
-    .pillars{
-      display:grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap:14px;
-      margin-top:14px;
-    }
-    .pillar{
-      padding:14px;
-      border-radius:16px;
-      border:1px solid rgba(42,42,49,.9);
-      background: rgba(0,0,0,.22);
-    }
-    .pillar strong{ display:block; font-size:14px; margin-bottom:6px; }
-    .pillar span{ color:var(--muted2); font-size:12px; }
-
-    .offer{
-      display:grid;
-      grid-template-columns: 1.15fr .85fr;
-      gap:18px;
-      align-items:start;
-    }
-    .price{
-      display:grid;
-      gap:10px;
-      padding:16px;
-      border-radius:16px;
-      border:1px solid rgba(191,163,111,.35);
-      background: linear-gradient(180deg, rgba(191,163,111,.10), rgba(0,0,0,.20));
-    }
-    .price .line{
-      display:flex; justify-content:space-between; gap:14px;
-      padding:10px 12px;
-      border-radius:14px;
-      border:1px solid rgba(42,42,49,.85);
-      background: rgba(0,0,0,.22);
-    }
-    .price .val{ color:var(--text); font-weight:600; }
-    .price .desc{ color:var(--muted); font-size:13px; }
-
+    /* Form minimalista no estilo carta */
     .form{
+      margin-top: 18px;
+      padding-top: 18px;
+      border-top: 1px solid rgba(46,46,56,.55);
       display:grid;
-      gap:12px;
+      gap: 12px;
     }
-    .row{ display:grid; grid-template-columns: 1fr 1fr; gap:12px; }
-    label{ font-size:12px; color:var(--muted2); display:block; margin:0 0 6px; }
+    label{
+      display:block;
+      margin: 0 0 6px;
+      color: var(--muted2);
+      font-size: 12px;
+    }
     input, select, textarea{
       width:100%;
-      padding:12px 12px;
-      border-radius:14px;
-      border:1px solid rgba(42,42,49,.95);
-      background: rgba(0,0,0,.32);
-      color:var(--text);
+      padding: 12px 12px;
+      border-radius: 14px;
+      border: 1px solid rgba(46,46,56,.9);
+      background: rgba(0,0,0,.24);
+      color: var(--text);
       outline:none;
     }
+    textarea{ min-height: 90px; resize: vertical; }
     input:focus, select:focus, textarea:focus{
       border-color: rgba(191,163,111,.55);
-      box-shadow: 0 0 0 4px rgba(191,163,111,.12);
+      box-shadow: 0 0 0 4px rgba(191,163,111,.10);
     }
-    textarea{ min-height:90px; resize:vertical; }
-
-    .fineprint{
-      color:var(--muted2);
-      font-size:12px;
-      margin-top:10px;
+    .row{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
     }
 
-    footer{
-      padding:34px 0 60px;
-      border-top:1px solid rgba(42,42,49,.55);
-      color:var(--muted2);
-      font-size:12px;
+    .footer{
+      margin-top: 16px;
+      color: var(--muted2);
+      font-size: 12px;
+      line-height: 1.55;
     }
 
-    @media (max-width: 920px){
-      .hero-grid, .grid-2, .offer{ grid-template-columns:1fr; }
-      .pillars{ grid-template-columns:1fr; }
-      .row{ grid-template-columns:1fr; }
-      .h1{ font-size:38px; }
+    @media (max-width: 760px){
+      h1{ font-size: 34px; }
+      .content{ padding: 28px 18px 22px; }
+      .row{ grid-template-columns: 1fr; }
+      .pager{ flex-direction:column; align-items:flex-start; }
     }
   </style>
 </head>
 
 <body>
-  <!-- NAV -->
-  <div class="nav">
-    <div class="wrap">
-      <div class="nav-inner">
-        <div class="brand">
-          <div class="sigil">🔱</div>
-          <div>INTERVENÇÃO</div>
-        </div>
-        <div class="nav-links">
-          <a href="#tese">Tese</a>
-          <a href="#o-que-e">O que é</a>
-          <a href="#pilares">Pilares</a>
-          <a href="#oferta">Oferta</a>
-          <a href="#aplicar">Aplicar</a>
-        </div>
-        <a class="btn btn-primary" href="#aplicar">Solicitar Aplicação</a>
+  <div class="wrap">
+    <div class="pager sans">
+      <div class="tag">
+        <span class="sigil">🔱</span>
+        <span>INTERVENÇÃO</span>
       </div>
+      <div>Página 1 de 1</div>
     </div>
-  </div>
 
-  <!-- HERO -->
-  <header class="hero">
-    <div class="wrap">
-      <div class="hero-grid">
-        <div>
-          <div class="kicker">Auditoria Integral de Estrutura Patrimonial</div>
-          <h1 class="h1">Você pode estar ganhando dinheiro…<br/>e ainda assim estar estruturalmente vulnerável.</h1>
-          <p class="sub">Rentabilidade não corrige arquitetura fraca. INTERVENÇÃO existe para revelar vulnerabilidades invisíveis — sem produto, sem agenda e sem conflito de interesse.</p>
-          <div class="hero-actions">
-            <a class="btn btn-primary" href="#aplicar">Aplicar para INTERVENÇÃO</a>
-            <a class="btn" href="#oferta">Ver o que inclui</a>
-          </div>
-          <div class="micro">Aplicação obrigatória. 5–10 análises por mês. Análise independente.</div>
+    <div class="paper">
+      <div class="content">
+        <h1 class="serif">Você pode estar ganhando dinheiro…<br/>e ainda assim estar estruturalmente vulnerável.</h1>
+        <p class="subline sans">INTERVENÇÃO não é sobre performance. É sobre vulnerabilidade invisível.</p>
+
+        <div class="availability sans">[5–10 análises disponíveis por mês]</div>
+
+        <div class="sep sans">* * *</div>
+
+        <div class="warn sans">
+          <div class="title">⚠ LEIA ANTES DE CONTINUAR</div>
+          <p>
+            Isso aqui é para quem já acumulou capital relevante — mas sabe (ou suspeita) que a estrutura não acompanha.
+            <br/><br/>
+            Se você quer recomendação de fundo, comparar CDI, ou “dica de ETF”, esta página não é para você.
+          </p>
         </div>
 
-        <aside class="card">
-          <div class="card-title">Risco real ≠ rentabilidade</div>
-          <p class="callout">Risco estrutural é o que você não vê:</p>
-          <div class="chips">
-            <div class="chip">Concentração em 1 jurisdição</div>
-            <div class="chip">Dependência institucional</div>
-            <div class="chip">PF/PJ misturados</div>
-            <div class="chip">Governança frágil</div>
-            <div class="chip">Estrutura por produto</div>
-            <div class="chip">Sucessão mal desenhada</div>
-          </div>
-        </aside>
-      </div>
-    </div>
-  </header>
+        <div class="sep sans">* * *</div>
 
-  <!-- TESE -->
-  <section id="tese" class="block alt">
-    <div class="wrap grid-2">
-      <div>
-        <h2 class="h2">A verdade incômoda</h2>
-        <p class="p">A maioria dos patrimônios no Brasil está concentrada demais, exposta demais e mal estruturada juridicamente — e ninguém fala disso.</p>
-        <p class="p muted">Porque o mercado ganha vendendo produto. Não questionando arquitetura.</p>
-      </div>
-      <div>
-        <ul class="clean">
-          <li class="li"><span class="dot"></span><div><strong>Concentração excessiva</strong><div class="muted">Uma jurisdição, uma narrativa, um ponto único de falha.</div></div></li>
-          <li class="li"><span class="dot"></span><div><strong>Dependência institucional</strong><div class="muted">1–2 instituições viram “risco sistêmico pessoal”.</div></div></li>
-          <li class="li"><span class="dot"></span><div><strong>PF e PJ misturados</strong><div class="muted">O risco do negócio contamina o patrimônio.</div></div></li>
-          <li class="li"><span class="dot"></span><div><strong>Governança ausente</strong><div class="muted">Sem regras, sem camadas, sem redundância.</div></div></li>
-        </ul>
-      </div>
-    </div>
-  </section>
-
-  <!-- PROBLEMA INVISÍVEL -->
-  <section class="block dark">
-    <div class="wrap grid-2">
-      <div>
-        <h2 class="h2">O problema invisível</h2>
-        <p class="p">Você pode ter boa rentabilidade, boa assessoria e boa carteira — e ainda assim operar em cima de uma arquitetura fraca.</p>
-        <p class="p muted">Performance não resolve estrutura. Ela só mascara.</p>
-      </div>
-      <div class="card">
-        <div class="card-title">Sinais típicos</div>
-        <ul class="clean">
-          <li class="li"><span class="dot"></span><div>80% do patrimônio em uma jurisdição</div></li>
-          <li class="li"><span class="dot"></span><div>Exposição empresarial sem separação adequada</div></li>
-          <li class="li"><span class="dot"></span><div>Sucessão “de documento”, não de governança</div></li>
-          <li class="li"><span class="dot"></span><div>Blindagem institucional inexistente</div></li>
-        </ul>
-      </div>
-    </div>
-  </section>
-
-  <!-- O QUE É -->
-  <section id="o-que-e" class="block alt">
-    <div class="wrap grid-2">
-      <div>
-        <h2 class="h2">O que é INTERVENÇÃO</h2>
-        <p class="p">INTERVENÇÃO é uma auditoria estratégica integral da sua estrutura patrimonial.</p>
-        <p class="p">Eu analiso 100% da sua carteira, instituições, exposição jurisdicional e estrutura societária. E entrego um diagnóstico claro, um mapa de vulnerabilidade e um plano de ação em fases.</p>
-        <p class="p muted">Sem venda de produto. Sem agenda oculta. Sem conflito de interesse.</p>
-      </div>
-      <div>
-        <ul class="clean">
-          <li class="li"><span class="dot"></span><div><strong>Diagnóstico técnico</strong><div class="muted">O que está frágil, por quê, e onde está o risco real.</div></div></li>
-          <li class="li"><span class="dot"></span><div><strong>Mapa de vulnerabilidade</strong><div class="muted">Visual claro de exposição institucional e jurisdicional.</div></div></li>
-          <li class="li"><span class="dot"></span><div><strong>Plano em 3 fases</strong><div class="muted">Sequência lógica de intervenção (sem ruído).</div></div></li>
-        </ul>
-      </div>
-    </div>
-  </section>
-
-  <!-- PILARES -->
-  <section id="pilares" class="block dark">
-    <div class="wrap">
-      <h2 class="h2">6 pilares críticos analisados</h2>
-      <p class="p muted">Arquitetura precede rentabilidade.</p>
-
-      <div class="pillars">
-        <div class="pillar"><strong>1) Exposição Jurisdicional</strong><span>Concentração e redundância fora do sistema local.</span></div>
-        <div class="pillar"><strong>2) Concentração Institucional</strong><span>Dependência de bancos/corretoras e risco operacional.</span></div>
-        <div class="pillar"><strong>3) Estrutura Societária</strong><span>Veículos, holding, controle, passivos e camadas.</span></div>
-        <div class="pillar"><strong>4) Separação PF/PJ</strong><span>Contaminação de risco entre pessoa e empresa.</span></div>
-        <div class="pillar"><strong>5) Proteção Sucessória</strong><span>Governança real vs. “papel que não executa”.</span></div>
-        <div class="pillar"><strong>6) Governança e Liquidez</strong><span>Regras, fluxos, acessos, contingência e continuidade.</span></div>
-      </div>
-    </div>
-  </section>
-
-  <!-- PARA QUEM É / NÃO É -->
-  <section class="block alt">
-    <div class="wrap grid-2">
-      <div class="card">
-        <div class="card-title">Para quem é</div>
-        <ul class="clean">
-          <li class="li"><span class="dot"></span><div>Empresários e investidores com capital relevante</div></li>
-          <li class="li"><span class="dot"></span><div>Quem não quer depender só do sistema local</div></li>
-          <li class="li"><span class="dot"></span><div>Quem quer estrutura, não promessa</div></li>
-          <li class="li"><span class="dot"></span><div>Quem sente que algo está mal dimensionado</div></li>
-        </ul>
-      </div>
-      <div class="card">
-        <div class="card-title">Para quem não é</div>
-        <ul class="clean">
-          <li class="li"><span class="dot"></span><div>Quem quer recomendação de fundo</div></li>
-          <li class="li"><span class="dot"></span><div>Quem quer comparar CDI</div></li>
-          <li class="li"><span class="dot"></span><div>Quem busca dica de ETF</div></li>
-          <li class="li"><span class="dot"></span><div>Quem não tem patrimônio relevante</div></li>
-        </ul>
-      </div>
-    </div>
-  </section>
-
-  <!-- OFERTA -->
-  <section id="oferta" class="block dark">
-    <div class="wrap offer">
-      <div class="card">
-        <div class="card-title">🔱 INTERVENÇÃO</div>
-        <h2 class="h2" style="margin-top:0;">Auditoria Integral de Estrutura Patrimonial</h2>
-        <ul class="clean">
-          <li class="li"><span class="dot"></span><div>Coleta estratégica de dados estruturais</div></li>
-          <li class="li"><span class="dot"></span><div>Análise profunda em 6 pilares críticos</div></li>
-          <li class="li"><span class="dot"></span><div>Relatório institucional detalhado</div></li>
-          <li class="li"><span class="dot"></span><div>Mapa visual de exposição e vulnerabilidade</div></li>
-          <li class="li"><span class="dot"></span><div>Plano de intervenção em 3 fases</div></li>
-          <li class="li"><span class="dot"></span><div>Call estratégica 1:1 (até 90 minutos)</div></li>
-        </ul>
-      </div>
-
-      <div class="price">
-        <div class="card-title" style="margin:0;">Investimento</div>
-
-        <div class="line">
-          <div class="desc">Plano independente (sem execução)</div>
-          <div class="val">R$ 2.500</div>
-        </div>
-        <div class="line">
-          <div class="desc">Se decidir estruturar comigo após</div>
-          <div class="val">R$ 1.500</div>
-        </div>
-
-        <div class="fineprint">
-          Sem vínculo forçado. Sem taxa escondida. Você escolhe.
-        </div>
-
-        <a class="btn btn-primary" href="#aplicar" style="margin-top:10px;">Aplicar agora</a>
-      </div>
-    </div>
-  </section>
-
-  <!-- MECANISMO -->
-  <section class="block alt">
-    <div class="wrap grid-2">
-      <div>
-        <h2 class="h2">Você não está comprando análise.</h2>
-        <p class="p">Você está comprando clareza estrutural.</p>
-        <p class="p muted">Quem paga já desconfia que algo está errado. Quer confirmação técnica. Quer direção estratégica.</p>
-      </div>
-      <div class="card">
-        <div class="card-title">O que muda</div>
-        <p class="callout" style="margin:0;">
-          Você sai com um mapa claro de onde está exposto, por quê, e qual sequência lógica reduz risco sem ruído.
+        <p class="sans">
+          A maioria dos empresários acredita que <strong>risco é rentabilidade</strong>.
+          Não é.
         </p>
-      </div>
-    </div>
-  </section>
 
-  <!-- APLICAÇÃO -->
-  <section id="aplicar" class="block dark">
-    <div class="wrap">
-      <div class="grid-2">
-        <div>
-          <h2 class="h2">Aplicação obrigatória</h2>
-          <p class="p">Se você já acumulou capital relevante e sente que sua estrutura não acompanha seu crescimento, talvez seja hora de uma intervenção.</p>
-          <p class="p muted">Envie seus dados. Se fizer sentido, você recebe o próximo passo.</p>
-          <div class="card" style="margin-top:14px;">
-            <div class="card-title">Nota</div>
-            <p class="callout" style="margin:0;">
-              Para proteger seus dados, o envio deve ir para um endpoint server-side (Vercel/Cloudflare).
-              Não coloque credenciais no HTML.
-            </p>
+        <p class="sans">
+          Risco real costuma aparecer como:
+        </p>
+
+        <ul class="bullets sans">
+          <li><span class="dot"></span><div>
+            <strong>Concentração excessiva em uma única jurisdição</strong>
+            <div class="muted">Um ponto único de falha (jurídico, regulatório, operacional).</div>
+          </div></li>
+
+          <li><span class="dot"></span><div>
+            <strong>Dependência de uma ou duas instituições</strong>
+            <div class="muted">Você acha que tem “relacionamento”. Na prática, tem risco concentrado.</div>
+          </div></li>
+
+          <li><span class="dot"></span><div>
+            <strong>Confusão entre PF e PJ</strong>
+            <div class="muted">O risco do negócio contamina o patrimônio pessoal.</div>
+          </div></li>
+
+          <li><span class="dot"></span><div>
+            <strong>Falta de governança</strong>
+            <div class="muted">Sem regras, sem redundância, sem plano de contingência.</div>
+          </div></li>
+
+          <li><span class="dot"></span><div>
+            <strong>Estrutura montada por produto, não por arquitetura</strong>
+            <div class="muted">Um monte de “solução” que não conversa entre si — e ninguém olha o todo.</div>
+          </div></li>
+        </ul>
+
+        <div class="sep sans">* * *</div>
+
+        <p class="sans">
+          Você pode ter boa rentabilidade, boa assessoria, boa carteira…
+          e ainda assim estar com <strong>80% do patrimônio na mesma jurisdição</strong>,
+          sem proteção sucessória real, sem separação adequada de risco empresarial,
+          e sem blindagem institucional.
+        </p>
+
+        <p class="sans"><strong>Rentabilidade não corrige arquitetura fraca.</strong></p>
+
+        <div class="sep sans">* * *</div>
+
+        <p class="section-title sans">O que é INTERVENÇÃO</p>
+        <p class="sans">
+          INTERVENÇÃO é uma <strong>auditoria estratégica integral</strong> da sua estrutura patrimonial.
+        </p>
+
+        <p class="sans">
+          Eu analiso:
+        </p>
+
+        <ul class="bullets sans">
+          <li><span class="dot"></span><div><strong>100% da sua carteira</strong></div></li>
+          <li><span class="dot"></span><div><strong>100% das suas instituições</strong></div></li>
+          <li><span class="dot"></span><div><strong>100% da sua exposição jurisdicional</strong></div></li>
+          <li><span class="dot"></span><div><strong>100% da sua estrutura societária</strong></div></li>
+        </ul>
+
+        <p class="sans" style="margin-top:14px;">
+          E entrego:
+        </p>
+
+        <ul class="bullets sans">
+          <li><span class="dot"></span><div><strong>Um diagnóstico claro</strong></div></li>
+          <li><span class="dot"></span><div><strong>Um mapa de vulnerabilidade</strong></div></li>
+          <li><span class="dot"></span><div><strong>Um plano de ação estruturado</strong></div></li>
+        </ul>
+
+        <p class="sans">
+          Sem conflito de interesse. Sem venda de produto. Sem agenda oculta.
+        </p>
+
+        <div class="sep sans">* * *</div>
+
+        <p class="section-title sans">Para quem é</p>
+        <ul class="bullets sans">
+          <li><span class="dot"></span><div><strong>Empresários e investidores</strong> que já acumularam capital relevante</div></li>
+          <li><span class="dot"></span><div>Quem não quer depender apenas do sistema local</div></li>
+          <li><span class="dot"></span><div>Quem quer estrutura, não promessa</div></li>
+          <li><span class="dot"></span><div>Quem sente que algo está mal dimensionado</div></li>
+        </ul>
+
+        <div class="sep sans">* * *</div>
+
+        <p class="section-title sans">Para quem não é</p>
+        <ul class="bullets sans">
+          <li><span class="dot"></span><div>Quem quer recomendação de fundo</div></li>
+          <li><span class="dot"></span><div>Quem quer comparar CDI</div></li>
+          <li><span class="dot"></span><div>Quem busca dica de ETF</div></li>
+          <li><span class="dot"></span><div>Quem não tem patrimônio relevante</div></li>
+        </ul>
+
+        <div class="sep sans">* * *</div>
+
+        <p class="section-title sans">A oferta</p>
+        <p class="sans"><strong>🔱 INTERVENÇÃO</strong><br/>Auditoria Integral de Estrutura Patrimonial</p>
+
+        <ul class="bullets sans">
+          <li><span class="dot"></span><div>Coleta estratégica de dados estruturais</div></li>
+          <li><span class="dot"></span><div>Análise profunda em 6 pilares críticos</div></li>
+          <li><span class="dot"></span><div>Relatório institucional detalhado</div></li>
+          <li><span class="dot"></span><div>Mapa visual de exposição e vulnerabilidade</div></li>
+          <li><span class="dot"></span><div>Plano de intervenção em 3 fases</div></li>
+          <li><span class="dot"></span><div>Call estratégica 1:1 de até 90 minutos</div></li>
+        </ul>
+
+        <div class="pricebox sans">
+          <div class="price-row">
+            <div class="left">Apenas plano (mantém estrutura atual)</div>
+            <div class="right">R$ 2.500</div>
           </div>
+          <div class="price-row">
+            <div class="left">Se decidir estruturar comigo após</div>
+            <div class="right">R$ 1.500</div>
+          </div>
+          <p class="fine">Sem vínculo forçado. Sem taxa escondida. Você escolhe.</p>
         </div>
 
-        <div class="card">
-          <div class="card-title">Formulário</div>
+        <div class="sep sans">* * *</div>
 
-          <form class="form" id="appForm">
+        <p class="section-title sans">A chamada final</p>
+        <p class="sans">
+          “Se você já acumulou capital relevante e sente que sua estrutura não acompanha seu crescimento,
+          talvez seja hora de uma intervenção.”
+        </p>
+        <p class="fine sans">Aplicação obrigatória. Vagas limitadas a 5–10 por mês.</p>
+
+        <div class="cta sans">
+          <a class="btn btn-primary" href="#form">Solicitar INTERVENÇÃO</a>
+          <a class="btn" href="#form">Aplicar agora</a>
+        </div>
+
+        <!-- FORM -->
+        <div id="form" class="form sans">
+          <div class="section-title" style="margin:0;">Aplicação</div>
+
+          <form id="appForm">
             <div class="row">
               <div>
                 <label for="nome">Nome completo</label>
-                <input id="nome" name="nome" type="text" placeholder="Seu nome" required />
+                <input id="nome" name="nome" type="text" required />
               </div>
               <div>
                 <label for="email">Email</label>
-                <input id="email" name="email" type="email" placeholder="voce@dominio.com" required />
+                <input id="email" name="email" type="email" required />
               </div>
             </div>
 
             <div class="row">
               <div>
                 <label for="telefone">Telefone (WhatsApp)</label>
-                <input id="telefone" name="telefone" type="tel" placeholder="(11) 99999-9999" required />
+                <input id="telefone" name="telefone" type="tel" required />
               </div>
               <div>
                 <label for="perfil">Perfil</label>
@@ -523,20 +531,18 @@
                   <option>Empresário</option>
                   <option>CLT</option>
                   <option>Autônomo / PJ</option>
-                  <option>Investidor</option>
                 </select>
               </div>
             </div>
 
             <div class="row">
               <div>
-                <label for="investimentos">Investe?</label>
-                <select id="investimentos" name="investimentos" required>
+                <label for="investe">Investe?</label>
+                <select id="investe" name="investe" required>
                   <option value="" disabled selected>Selecione</option>
                   <option>Ainda não</option>
                   <option>Sim, no Brasil</option>
-                  <option>Sim, no Brasil e internacional</option>
-                  <option>Sim, internacional</option>
+                  <option>Internacional</option>
                 </select>
               </div>
               <div>
@@ -553,51 +559,25 @@
 
             <div>
               <label for="contexto">Em uma linha: onde você suspeita vulnerabilidade?</label>
-              <textarea id="contexto" name="contexto" placeholder="Ex.: muito concentrado no Brasil / PF-PJ misturado / dependência bancária / sucessão..." required></textarea>
+              <textarea id="contexto" name="contexto" required></textarea>
             </div>
 
             <button class="btn btn-primary" type="submit" id="submitBtn">Enviar aplicação</button>
 
-            <div class="fineprint">
-              Ao enviar, você concorda em ser contatado para avaliação da aplicação. Sem spam.
+            <div class="footer">
+              Envio via backend recomendado (não exponha credenciais no frontend).
+              Após o envio, você pode redirecionar para WhatsApp.
             </div>
           </form>
-
         </div>
-      </div>
-    </div>
-  </section>
 
-  <!-- CTA FINAL -->
-  <section class="block alt">
-    <div class="wrap">
-      <div class="card" style="text-align:center;">
-        <div class="card-title">Encerramento</div>
-        <h2 class="h2" style="margin-top:0;">Talvez seja hora de uma intervenção.</h2>
-        <p class="p muted" style="margin: 0 auto 16px; max-width: 70ch;">
-          Se você cresceu, mas sua estrutura ficou para trás, o custo não é teórico. É risco acumulado.
-        </p>
-        <a class="btn btn-primary" href="#aplicar">Aplicar agora</a>
-        <div class="micro">5–10 análises por mês.</div>
       </div>
     </div>
-  </section>
-
-  <footer>
-    <div class="wrap">
-      <div style="display:flex; justify-content:space-between; gap:14px; flex-wrap:wrap;">
-        <div>© INTERVENÇÃO — Auditoria Integral</div>
-        <div class="muted">Estrutura > performance</div>
-      </div>
-    </div>
-  </footer>
+  </div>
 
   <script>
-    // CONFIGURAÇÕES
-    // 1) Coloque seu endpoint server-side aqui (Vercel/Cloudflare/etc). Ex.: https://seusite.com/api/apply
-    const BACKEND_ENDPOINT = ""; // <- obrigatório para salvar em planilha (deixe vazio se ainda não tiver)
-
-    // 2) WhatsApp para redirecionamento após envio
+    // CONFIG
+    const BACKEND_ENDPOINT = ""; // ex.: https://seusite.com/api/apply
     const WHATSAPP_URL = "https://api.whatsapp.com/send/?phone=5511983711418&text=Quero+falar+sobre+INTERVEN%C3%87%C3%83O.&type=phone_number&app_absent=0";
 
     const form = document.getElementById("appForm");
@@ -606,15 +586,13 @@
     form.addEventListener("submit", async (e) => {
       e.preventDefault();
 
-      const data = Object.fromEntries(new FormData(form).entries());
-
+      const payload = Object.fromEntries(new FormData(form).entries());
       btn.disabled = true;
       btn.textContent = "Enviando...";
 
-      try{
-        if(!BACKEND_ENDPOINT){
-          // Sem backend: não salva em lugar nenhum. Redireciona para WhatsApp com payload no texto (opcional).
-          // Melhor: só redirecionar. Evita vazar dados sensíveis na URL.
+      try {
+        if (!BACKEND_ENDPOINT) {
+          // Sem backend: não salva. Redireciona direto.
           window.location.href = WHATSAPP_URL;
           return;
         }
@@ -622,16 +600,14 @@
         const res = await fetch(BACKEND_ENDPOINT, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(data)
+          body: JSON.stringify(payload),
         });
 
-        if(!res.ok) throw new Error("Falha no envio");
-
-        // Sucesso -> WhatsApp
+        if (!res.ok) throw new Error("Falha no envio");
         window.location.href = WHATSAPP_URL;
 
-      } catch(err){
-        alert("Não foi possível enviar. Tente novamente em instantes.");
+      } catch (err) {
+        alert("Não foi possível enviar. Tente novamente.");
         btn.disabled = false;
         btn.textContent = "Enviar aplicação";
       }
