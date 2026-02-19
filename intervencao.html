@@ -1,617 +1,829 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>INTERVENÇÃO — Carta de Aplicação</title>
-  <meta name="description" content="INTERVENÇÃO: auditoria estratégica integral da sua estrutura patrimonial. Diagnóstico, mapa de vulnerabilidade e plano de ação sem conflito de interesse." />
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>INTERVENÇÃO — Auditoria Integral de Estrutura Patrimonial</title>
 
   <style>
-    :root{
-      --bg:#0B0B0D;
-      --panel:#0F0F12;
-      --paper:#111116;
-      --line:#24242C;
-      --line2:#2E2E38;
-
-      --text:#F2F2F4;
-      --muted:#B7B7C2;
-      --muted2:#8A8A96;
-
-      --gold:#BFA36F;
-
-      --max: 760px; /* coluna estreita de carta */
-      --radius: 18px;
-      --shadow: 0 26px 80px rgba(0,0,0,.6);
+    /* ============================================================
+       TOKENS & RESET
+    ============================================================ */
+    :root {
+      --bg:          #0B0B0D;
+      --surface:     #111116;
+      --border:      rgba(191, 163, 111, 0.12);
+      --gold:        #BFA36F;
+      --gold-dim:    rgba(191, 163, 111, 0.45);
+      --text-primary:#F0EDE6;
+      --text-body:   #C8C3BA;
+      --text-muted:  #8A857D;
+      --serif:       Georgia, 'Times New Roman', Times, serif;
+      --sans:        'Helvetica Neue', Helvetica, Arial, sans-serif;
+      --col:         720px;
+      --pad-x:       2.5rem;
     }
 
-    *{ box-sizing:border-box; }
-    html,body{ height:100%; }
-    body{
-      margin:0;
-      background:
-        radial-gradient(900px 520px at 20% -10%, rgba(191,163,111,.06), transparent 60%),
-        radial-gradient(900px 520px at 80% 10%, rgba(255,255,255,.035), transparent 60%),
-        var(--bg);
-      color:var(--text);
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html {
+      font-size: 17px;
       -webkit-font-smoothing: antialiased;
-      -moz-osx-font-smoothing: grayscale;
+      text-rendering: optimizeLegibility;
     }
 
-    /* Tipografia "carta" */
-    .serif{
-      font-family: ui-serif, Georgia, "Times New Roman", Times, serif;
-      letter-spacing: .1px;
-    }
-    .sans{
-      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
-      letter-spacing: .15px;
+    body {
+      background: var(--bg);
+      color: var(--text-body);
+      font-family: var(--sans);
+      line-height: 1.75;
+      min-height: 100vh;
     }
 
-    a{ color:inherit; text-decoration:none; }
-    .wrap{
-      max-width: var(--max);
+    /* ============================================================
+       LAYOUT — COLUMN
+    ============================================================ */
+    .carta {
+      max-width: var(--col);
       margin: 0 auto;
-      padding: 44px 18px 70px;
+      padding: 0 var(--pad-x) 8rem;
     }
 
-    /* “Página X de Y” */
-    .pager{
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:12px;
-      color: var(--muted2);
-      font-size: 12px;
-      margin-bottom: 18px;
-    }
-    .pager .tag{
-      display:inline-flex;
-      align-items:center;
-      gap:10px;
-      padding:8px 12px;
-      border-radius: 999px;
-      border:1px solid rgba(191,163,111,.28);
-      background: linear-gradient(180deg, rgba(191,163,111,.10), rgba(0,0,0,.12));
-      color: var(--muted);
-    }
-    .sigil{
-      width:28px; height:28px;
-      border-radius: 10px;
-      display:grid; place-items:center;
-      border:1px solid rgba(191,163,111,.33);
-      color: var(--gold);
-      background: rgba(191,163,111,.06);
+    /* ============================================================
+       TOPO / HEADER
+    ============================================================ */
+    header {
+      border-bottom: 1px solid var(--border);
+      padding: 2.6rem 0 1.6rem;
+      margin-bottom: 5rem;
     }
 
-    /* “Papel” escuro */
-    .paper{
-      position: relative;
-      background: linear-gradient(180deg, rgba(255,255,255,.03), rgba(255,255,255,.015));
-      border: 1px solid rgba(36,36,44,.9);
-      border-radius: var(--radius);
-      box-shadow: var(--shadow);
-      overflow:hidden;
+    .header-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
     }
 
-    /* textura sutil */
-    .paper:before{
-      content:"";
-      position:absolute; inset:0;
-      background:
-        radial-gradient(2px 2px at 15% 10%, rgba(255,255,255,.05), transparent 60%),
-        radial-gradient(2px 2px at 75% 30%, rgba(255,255,255,.03), transparent 60%),
-        radial-gradient(2px 2px at 40% 80%, rgba(255,255,255,.03), transparent 60%);
-      opacity:.35;
-      pointer-events:none;
-    }
-
-    .content{
-      position: relative;
-      padding: 34px 26px 26px;
-    }
-
-    h1{
-      margin:0 0 14px;
-      font-size: 38px;
-      line-height: 1.08;
-      font-weight: 600;
-    }
-    .subline{
-      margin: 0 0 18px;
-      color: var(--muted);
-      font-size: 15px;
-      line-height: 1.55;
-    }
-
-    .availability{
-      display:inline-block;
-      margin: 6px 0 0;
-      color: var(--muted);
-      font-size: 13px;
-      padding: 8px 12px;
-      border-radius: 14px;
-      border:1px solid rgba(46,46,56,.9);
-      background: rgba(0,0,0,.22);
-    }
-
-    /* separador estilo * * * do exemplo */
-    .sep{
-      margin: 20px 0;
-      text-align:center;
-      color: rgba(183,183,194,.65);
-      letter-spacing: 6px;
-      font-size: 13px;
-      user-select:none;
-    }
-
-    .warn{
-      border: 1px solid rgba(191,163,111,.25);
-      background: linear-gradient(180deg, rgba(191,163,111,.10), rgba(0,0,0,.12));
-      padding: 16px 16px;
-      border-radius: 16px;
-      margin: 12px 0 0;
-    }
-    .warn .title{
-      font-size: 12px;
-      letter-spacing: 1px;
+    .tag-intervencao {
+      font-family: var(--sans);
+      font-size: 0.68rem;
+      letter-spacing: 0.22em;
       text-transform: uppercase;
+      color: var(--gold-dim);
+      display: flex;
+      align-items: center;
+      gap: 0.45rem;
+    }
+
+    .tag-intervencao span.trident {
+      font-size: 0.85rem;
       color: var(--gold);
-      margin-bottom: 8px;
-    }
-    .warn p{
-      margin: 0;
-      color: var(--muted);
-      font-size: 14px;
-      line-height: 1.55;
+      opacity: 0.7;
     }
 
-    p{
-      margin: 0 0 14px;
-      color: var(--muted);
-      font-size: 15px;
-      line-height: 1.7;
+    .pagina-label {
+      font-family: var(--sans);
+      font-size: 0.62rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--text-muted);
     }
-    p strong{ color: var(--text); font-weight: 600; }
 
-    .bullets{
-      margin: 12px 0 0;
+    /* ============================================================
+       HEADLINE
+    ============================================================ */
+    .headline-block {
+      margin-bottom: 4.5rem;
+    }
+
+    h1 {
+      font-family: var(--serif);
+      font-size: clamp(1.65rem, 4vw, 2.35rem);
+      font-weight: 400;
+      color: var(--text-primary);
+      line-height: 1.45;
+      letter-spacing: -0.01em;
+      margin-bottom: 2rem;
+    }
+
+    .subheadline {
+      font-family: var(--sans);
+      font-size: 0.75rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--gold-dim);
+      margin-bottom: 2.2rem;
+      line-height: 1.6;
+    }
+
+    .badge {
+      display: inline-block;
+      border: 1px solid var(--border);
+      border-left: 2px solid var(--gold-dim);
+      padding: 0.45rem 0.9rem;
+      font-family: var(--sans);
+      font-size: 0.65rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      background: rgba(191, 163, 111, 0.03);
+    }
+
+    /* ============================================================
+       SEPARADOR
+    ============================================================ */
+    .sep {
+      text-align: center;
+      color: var(--text-muted);
+      font-size: 0.7rem;
+      letter-spacing: 0.6em;
+      margin: 4rem 0;
+      opacity: 0.5;
+    }
+
+    /* ============================================================
+       AVISO INSTITUCIONAL
+    ============================================================ */
+    .aviso {
+      border-left: 1px solid var(--gold-dim);
+      padding: 1.8rem 2rem;
+      background: rgba(191, 163, 111, 0.025);
+      margin-bottom: 0;
+    }
+
+    .aviso-titulo {
+      font-family: var(--sans);
+      font-size: 0.62rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--gold-dim);
+      margin-bottom: 1.2rem;
+    }
+
+    .aviso p {
+      font-family: var(--sans);
+      font-size: 0.88rem;
+      color: var(--text-body);
+      line-height: 1.8;
+      margin-bottom: 0.9rem;
+    }
+
+    .aviso p:last-child { margin-bottom: 0; }
+
+    /* ============================================================
+       CORPO DA CARTA
+    ============================================================ */
+    .corpo {
+      margin-bottom: 0;
+    }
+
+    .corpo p {
+      font-family: var(--sans);
+      font-size: 0.94rem;
+      color: var(--text-body);
+      line-height: 1.9;
+      margin-bottom: 1.6rem;
+    }
+
+    .corpo p em {
+      font-family: var(--serif);
+      font-style: italic;
+      color: var(--text-primary);
+      font-size: 1rem;
+    }
+
+    /* Vulnerabilidades */
+    .vulnerabilidades {
+      margin: 2.5rem 0;
       padding: 0;
       list-style: none;
+    }
+
+    .vulnerabilidades li {
+      font-family: var(--sans);
+      font-size: 0.85rem;
+      color: var(--text-body);
+      line-height: 1.75;
+      padding: 0.7rem 0;
+      border-bottom: 1px solid rgba(255,255,255,0.04);
+      display: flex;
+      align-items: flex-start;
+      gap: 1rem;
+    }
+
+    .vulnerabilidades li::before {
+      content: '—';
+      color: var(--gold-dim);
+      flex-shrink: 0;
+      margin-top: 0.05em;
+      font-size: 0.8rem;
+    }
+
+    /* ============================================================
+       BLOCO O QUE É
+    ============================================================ */
+    .o-que-e h2 {
+      font-family: var(--serif);
+      font-size: 1.45rem;
+      font-weight: 400;
+      color: var(--text-primary);
+      line-height: 1.5;
+      margin-bottom: 1.8rem;
+      letter-spacing: -0.01em;
+    }
+
+    .o-que-e p {
+      font-family: var(--sans);
+      font-size: 0.9rem;
+      color: var(--text-body);
+      line-height: 1.9;
+      margin-bottom: 1.4rem;
+    }
+
+    /* Listas do serviço */
+    .servico-grid {
       display: grid;
-      gap: 10px;
-    }
-    .bullets li{
-      display:flex;
-      gap: 12px;
-      align-items:flex-start;
-      padding: 12px 12px;
-      border-radius: 16px;
-      border: 1px solid rgba(46,46,56,.85);
-      background: rgba(0,0,0,.20);
-      color: var(--text);
-      font-size: 14px;
-    }
-    .dot{
-      width:10px; height:10px;
-      border-radius:999px;
-      margin-top: 7px;
-      background: rgba(191,163,111,.85);
-      box-shadow: 0 0 0 4px rgba(191,163,111,.12);
-      flex: 0 0 auto;
-    }
-    .bullets .muted{
-      color: var(--muted);
-      font-size: 13px;
-      margin-top: 4px;
-      line-height: 1.55;
-    }
-
-    .section-title{
-      margin: 0 0 10px;
-      color: var(--text);
-      font-size: 16px;
-      font-weight: 650;
-    }
-
-    .pricebox{
-      border: 1px solid rgba(46,46,56,.9);
-      background: rgba(0,0,0,.22);
-      padding: 14px 14px;
-      border-radius: 16px;
-      display:grid;
-      gap:10px;
-      margin-top: 12px;
-    }
-    .price-row{
-      display:flex;
-      justify-content:space-between;
-      gap: 12px;
-      padding: 10px 10px;
-      border-radius: 14px;
-      border: 1px solid rgba(36,36,44,.9);
-      background: rgba(0,0,0,.18);
-    }
-    .price-row .left{
-      color: var(--muted);
-      font-size: 13px;
-    }
-    .price-row .right{
-      color: var(--text);
-      font-weight: 650;
-      font-size: 13px;
-      white-space:nowrap;
-    }
-    .fine{
-      color: var(--muted2);
-      font-size: 12px;
-      line-height: 1.55;
-      margin: 0;
-    }
-
-    .cta{
-      margin-top: 16px;
-      display:flex;
-      gap:12px;
-      flex-wrap:wrap;
-      align-items:center;
-    }
-    .btn{
-      display:inline-flex;
-      align-items:center;
-      justify-content:center;
-      padding: 12px 14px;
-      border-radius: 14px;
-      border: 1px solid rgba(255,255,255,.14);
-      background: rgba(255,255,255,.04);
-      color: var(--text);
-      font-size: 14px;
-      gap: 10px;
-      transition: .2s ease;
-      cursor:pointer;
-      user-select:none;
-    }
-    .btn:hover{
-      transform: translateY(-1px);
-      background: rgba(255,255,255,.06);
-      border-color: rgba(255,255,255,.20);
-    }
-    .btn-primary{
-      border-color: rgba(191,163,111,.55);
-      background: linear-gradient(180deg, rgba(191,163,111,.18), rgba(191,163,111,.06));
-    }
-    .btn-primary:hover{
-      border-color: rgba(191,163,111,.75);
-    }
-
-    /* Form minimalista no estilo carta */
-    .form{
-      margin-top: 18px;
-      padding-top: 18px;
-      border-top: 1px solid rgba(46,46,56,.55);
-      display:grid;
-      gap: 12px;
-    }
-    label{
-      display:block;
-      margin: 0 0 6px;
-      color: var(--muted2);
-      font-size: 12px;
-    }
-    input, select, textarea{
-      width:100%;
-      padding: 12px 12px;
-      border-radius: 14px;
-      border: 1px solid rgba(46,46,56,.9);
-      background: rgba(0,0,0,.24);
-      color: var(--text);
-      outline:none;
-    }
-    textarea{ min-height: 90px; resize: vertical; }
-    input:focus, select:focus, textarea:focus{
-      border-color: rgba(191,163,111,.55);
-      box-shadow: 0 0 0 4px rgba(191,163,111,.10);
-    }
-    .row{
-      display:grid;
       grid-template-columns: 1fr 1fr;
-      gap: 12px;
+      gap: 2.5rem 3rem;
+      margin: 2.5rem 0;
     }
 
-    .footer{
-      margin-top: 16px;
-      color: var(--muted2);
-      font-size: 12px;
-      line-height: 1.55;
+    .servico-col h3 {
+      font-family: var(--sans);
+      font-size: 0.6rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--gold-dim);
+      margin-bottom: 1.1rem;
     }
 
-    @media (max-width: 760px){
-      h1{ font-size: 34px; }
-      .content{ padding: 28px 18px 22px; }
-      .row{ grid-template-columns: 1fr; }
-      .pager{ flex-direction:column; align-items:flex-start; }
+    .servico-col ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    .servico-col ul li {
+      font-family: var(--sans);
+      font-size: 0.83rem;
+      color: var(--text-body);
+      line-height: 1.75;
+      padding: 0.3rem 0;
+      border-bottom: 1px solid rgba(255,255,255,0.03);
+      display: flex;
+      align-items: flex-start;
+      gap: 0.7rem;
+    }
+
+    .servico-col ul li::before {
+      content: '—';
+      color: var(--gold-dim);
+      flex-shrink: 0;
+      font-size: 0.75rem;
+    }
+
+    .sem-conflito {
+      font-family: var(--sans);
+      font-size: 0.78rem;
+      letter-spacing: 0.12em;
+      color: var(--text-muted);
+      margin-top: 2rem;
+      line-height: 1.9;
+    }
+
+    .sem-conflito span {
+      display: inline-block;
+      margin-right: 1.5rem;
+    }
+
+    .sem-conflito span::before {
+      content: '· ';
+      color: var(--gold-dim);
+    }
+
+    /* ============================================================
+       PARA QUEM É
+    ============================================================ */
+    .para-quem {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2.5rem 3rem;
+    }
+
+    .para-quem-col h3 {
+      font-family: var(--sans);
+      font-size: 0.6rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      margin-bottom: 1.2rem;
+    }
+
+    .para-quem-col.sim h3 { color: var(--gold-dim); }
+    .para-quem-col.nao h3 { color: var(--text-muted); }
+
+    .para-quem-col p {
+      font-family: var(--sans);
+      font-size: 0.85rem;
+      color: var(--text-body);
+      line-height: 1.85;
+      margin-bottom: 0.75rem;
+      padding-left: 1rem;
+      border-left: 1px solid rgba(255,255,255,0.06);
+    }
+
+    .para-quem-col.nao p {
+      color: var(--text-muted);
+    }
+
+    /* ============================================================
+       OFERTA
+    ============================================================ */
+    .oferta {
+      border: 1px solid var(--border);
+      padding: 3rem 2.8rem;
+      background: rgba(191, 163, 111, 0.02);
+      position: relative;
+    }
+
+    .oferta::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--gold-dim), transparent);
+      opacity: 0.4;
+    }
+
+    .oferta-titulo {
+      font-family: var(--sans);
+      font-size: 0.62rem;
+      letter-spacing: 0.26em;
+      text-transform: uppercase;
+      color: var(--gold-dim);
+      margin-bottom: 0.5rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .oferta h2 {
+      font-family: var(--serif);
+      font-size: 1.3rem;
+      font-weight: 400;
+      color: var(--text-primary);
+      letter-spacing: -0.01em;
+      margin-bottom: 2.5rem;
+      line-height: 1.45;
+    }
+
+    .oferta-inclui {
+      margin-bottom: 2.5rem;
+    }
+
+    .oferta-inclui h3 {
+      font-family: var(--sans);
+      font-size: 0.6rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 1rem;
+    }
+
+    .oferta-inclui ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    .oferta-inclui ul li {
+      font-family: var(--sans);
+      font-size: 0.85rem;
+      color: var(--text-body);
+      line-height: 1.75;
+      padding: 0.4rem 0;
+      border-bottom: 1px solid rgba(255,255,255,0.03);
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .oferta-inclui ul li::before {
+      content: '—';
+      color: var(--gold-dim);
+      font-size: 0.75rem;
+    }
+
+    .investimento {
+      border-top: 1px solid var(--border);
+      padding-top: 2rem;
+    }
+
+    .investimento h3 {
+      font-family: var(--sans);
+      font-size: 0.6rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 1.2rem;
+    }
+
+    .preco-item {
+      display: flex;
+      align-items: baseline;
+      gap: 1rem;
+      margin-bottom: 0.9rem;
+    }
+
+    .preco-valor {
+      font-family: var(--serif);
+      font-size: 1.35rem;
+      color: var(--text-primary);
+      font-weight: 400;
+    }
+
+    .preco-desc {
+      font-family: var(--sans);
+      font-size: 0.78rem;
+      color: var(--text-muted);
+    }
+
+    .sem-vinculo {
+      margin-top: 1.5rem;
+      font-family: var(--sans);
+      font-size: 0.72rem;
+      letter-spacing: 0.1em;
+      color: var(--text-muted);
+      font-style: italic;
+    }
+
+    /* ============================================================
+       CHAMADA FINAL
+    ============================================================ */
+    .chamada-final {
+      text-align: center;
+      padding: 1rem 0;
+    }
+
+    .chamada-final blockquote {
+      font-family: var(--serif);
+      font-size: clamp(1.1rem, 2.5vw, 1.4rem);
+      font-weight: 400;
+      color: var(--text-primary);
+      line-height: 1.6;
+      letter-spacing: -0.01em;
+      max-width: 560px;
+      margin: 0 auto 3rem;
+      font-style: italic;
+    }
+
+    .btn-solicitar {
+      display: inline-block;
+      border: 1px solid var(--gold-dim);
+      padding: 1rem 2.8rem;
+      font-family: var(--sans);
+      font-size: 0.7rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--gold-dim);
+      text-decoration: none;
+      background: transparent;
+      cursor: pointer;
+      transition: background 0.3s ease, color 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .btn-solicitar::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: rgba(191, 163, 111, 0.06);
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .btn-solicitar:hover::after { opacity: 1; }
+
+    .aplicacao-nota {
+      margin-top: 1.5rem;
+      font-family: var(--sans);
+      font-size: 0.65rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+    }
+
+    /* ============================================================
+       FOOTER
+    ============================================================ */
+    footer {
+      border-top: 1px solid var(--border);
+      margin-top: 5rem;
+      padding: 2.5rem 0 0;
+      text-align: center;
+    }
+
+    footer p {
+      font-family: var(--sans);
+      font-size: 0.65rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      line-height: 2;
+    }
+
+    .gold-dot {
+      color: var(--gold);
+      opacity: 0.5;
+      font-size: 0.5rem;
+      vertical-align: middle;
+    }
+
+    /* ============================================================
+       SECTION LABEL
+    ============================================================ */
+    .section-label {
+      font-family: var(--sans);
+      font-size: 0.6rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 1.8rem;
+      opacity: 0.7;
+    }
+
+    /* ============================================================
+       RESPONSIVE
+    ============================================================ */
+    @media (max-width: 680px) {
+      :root { --pad-x: 1.4rem; }
+
+      .servico-grid,
+      .para-quem {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+      }
+
+      .oferta { padding: 2rem 1.6rem; }
+
+      h1 { font-size: 1.5rem; }
+
+      .preco-valor { font-size: 1.1rem; }
+
+      .sep { margin: 3rem 0; }
+    }
+
+    @media (max-width: 400px) {
+      :root { --pad-x: 1rem; }
     }
   </style>
 </head>
-
 <body>
-  <div class="wrap">
-    <div class="pager sans">
-      <div class="tag">
-        <span class="sigil">🔱</span>
-        <span>INTERVENÇÃO</span>
+
+  <main class="carta">
+
+    <!-- =========================================================
+         HEADER
+    ========================================================= -->
+    <header>
+      <div class="header-row">
+        <div class="tag-intervencao">
+          <span class="trident">🔱</span>
+          INTERVENÇÃO
+        </div>
+        <div class="pagina-label">Página 1 de 1</div>
       </div>
-      <div>Página 1 de 1</div>
-    </div>
+    </header>
 
-    <div class="paper">
-      <div class="content">
-        <h1 class="serif">Você pode estar ganhando dinheiro…<br/>e ainda assim estar estruturalmente vulnerável.</h1>
-        <p class="subline sans">INTERVENÇÃO não é sobre performance. É sobre vulnerabilidade invisível.</p>
+    <!-- =========================================================
+         HEADLINE
+    ========================================================= -->
+    <section class="headline-block">
+      <h1>
+        Você pode estar ganhando dinheiro…<br />
+        e ainda assim estar estruturalmente vulnerável.
+      </h1>
 
-        <div class="availability sans">[5–10 análises disponíveis por mês]</div>
+      <p class="subheadline">
+        INTERVENÇÃO não é sobre performance.<br />
+        É sobre vulnerabilidade invisível.
+      </p>
 
-        <div class="sep sans">* * *</div>
+      <span class="badge">5–10 análises disponíveis por mês</span>
+    </section>
 
-        <div class="warn sans">
-          <div class="title">⚠ LEIA ANTES DE CONTINUAR</div>
-          <p>
-            Isso aqui é para quem já acumulou capital relevante — mas sabe (ou suspeita) que a estrutura não acompanha.
-            <br/><br/>
-            Se você quer recomendação de fundo, comparar CDI, ou “dica de ETF”, esta página não é para você.
-          </p>
+    <!-- =========================================================
+         SEPARADOR
+    ========================================================= -->
+    <div class="sep" aria-hidden="true">* &nbsp; * &nbsp; *</div>
+
+    <!-- =========================================================
+         AVISO INSTITUCIONAL
+    ========================================================= -->
+    <section aria-label="Aviso institucional">
+      <div class="aviso">
+        <div class="aviso-titulo">Leia antes de continuar</div>
+        <p>
+          Isso é para quem já acumulou capital relevante — mas sabe (ou suspeita)
+          que a estrutura não acompanha.
+        </p>
+        <p>
+          Se você quer recomendação de fundo, comparar CDI ou dica de ETF,
+          esta página não é para você.
+        </p>
+      </div>
+    </section>
+
+    <!-- =========================================================
+         SEPARADOR
+    ========================================================= -->
+    <div class="sep" aria-hidden="true">* &nbsp; * &nbsp; *</div>
+
+    <!-- =========================================================
+         CORPO DA CARTA
+    ========================================================= -->
+    <section class="corpo" aria-label="Narrativa">
+
+      <p>
+        A maioria dos empresários acredita que risco é rentabilidade.
+        <em>Não é.</em>
+      </p>
+
+      <p>
+        Risco é a distância entre o que você construiu e o que sobrevive
+        a uma crise real — regulatória, successória, fiscal, ou de relacionamento
+        institucional. Rentabilidade é uma métrica. Estrutura é uma condição.
+      </p>
+
+      <p>
+        As vulnerabilidades mais perigosas não aparecem nos extratos.
+        Elas aparecem quando já é tarde demais para agir.
+      </p>
+
+      <div class="section-label">Vulnerabilidades mais comuns</div>
+
+      <ul class="vulnerabilidades">
+        <li>Concentração excessiva em uma única jurisdição</li>
+        <li>Dependência institucional — um único banco, uma única corretora</li>
+        <li>Confusão entre patrimônio pessoal (PF) e empresarial (PJ)</li>
+        <li>Falta de governança formal e sucessória</li>
+        <li>Estrutura montada por produto, não por arquitetura</li>
+      </ul>
+
+    </section>
+
+    <!-- =========================================================
+         SEPARADOR
+    ========================================================= -->
+    <div class="sep" aria-hidden="true">* &nbsp; * &nbsp; *</div>
+
+    <!-- =========================================================
+         O QUE É INTERVENÇÃO
+    ========================================================= -->
+    <section class="o-que-e" aria-label="O que é INTERVENÇÃO">
+
+      <h2>
+        INTERVENÇÃO é uma auditoria estratégica integral
+        da sua estrutura patrimonial.
+      </h2>
+
+      <div class="servico-grid">
+        <div class="servico-col">
+          <h3>Eu analiso</h3>
+          <ul>
+            <li>100% da sua carteira</li>
+            <li>100% das suas instituições</li>
+            <li>100% da sua exposição jurisdicional</li>
+            <li>100% da sua estrutura societária</li>
+          </ul>
+        </div>
+        <div class="servico-col">
+          <h3>Eu entrego</h3>
+          <ul>
+            <li>Diagnóstico claro</li>
+            <li>Mapa de vulnerabilidade</li>
+            <li>Plano de ação estruturado</li>
+          </ul>
+        </div>
+      </div>
+
+      <p class="sem-conflito">
+        <span>Sem conflito de interesse</span>
+        <span>Sem venda de produto</span>
+        <span>Sem agenda oculta</span>
+      </p>
+
+    </section>
+
+    <!-- =========================================================
+         SEPARADOR
+    ========================================================= -->
+    <div class="sep" aria-hidden="true">* &nbsp; * &nbsp; *</div>
+
+    <!-- =========================================================
+         PARA QUEM É / NÃO É
+    ========================================================= -->
+    <section aria-label="Para quem é">
+
+      <div class="section-label">Perfil</div>
+
+      <div class="para-quem">
+
+        <div class="para-quem-col sim">
+          <h3>Para quem é</h3>
+          <p>Empresários com patrimônio acumulado que percebem lacunas na estrutura.</p>
+          <p>Quem já tem assessoria, mas sente que as peças não estão conectadas.</p>
+          <p>Quem está crescendo e precisa que a estrutura cresça junto.</p>
+          <p>Quem pensa em sucessão, internacionalização ou reorganização societária.</p>
         </div>
 
-        <div class="sep sans">* * *</div>
-
-        <p class="sans">
-          A maioria dos empresários acredita que <strong>risco é rentabilidade</strong>.
-          Não é.
-        </p>
-
-        <p class="sans">
-          Risco real costuma aparecer como:
-        </p>
-
-        <ul class="bullets sans">
-          <li><span class="dot"></span><div>
-            <strong>Concentração excessiva em uma única jurisdição</strong>
-            <div class="muted">Um ponto único de falha (jurídico, regulatório, operacional).</div>
-          </div></li>
-
-          <li><span class="dot"></span><div>
-            <strong>Dependência de uma ou duas instituições</strong>
-            <div class="muted">Você acha que tem “relacionamento”. Na prática, tem risco concentrado.</div>
-          </div></li>
-
-          <li><span class="dot"></span><div>
-            <strong>Confusão entre PF e PJ</strong>
-            <div class="muted">O risco do negócio contamina o patrimônio pessoal.</div>
-          </div></li>
-
-          <li><span class="dot"></span><div>
-            <strong>Falta de governança</strong>
-            <div class="muted">Sem regras, sem redundância, sem plano de contingência.</div>
-          </div></li>
-
-          <li><span class="dot"></span><div>
-            <strong>Estrutura montada por produto, não por arquitetura</strong>
-            <div class="muted">Um monte de “solução” que não conversa entre si — e ninguém olha o todo.</div>
-          </div></li>
-        </ul>
-
-        <div class="sep sans">* * *</div>
-
-        <p class="sans">
-          Você pode ter boa rentabilidade, boa assessoria, boa carteira…
-          e ainda assim estar com <strong>80% do patrimônio na mesma jurisdição</strong>,
-          sem proteção sucessória real, sem separação adequada de risco empresarial,
-          e sem blindagem institucional.
-        </p>
-
-        <p class="sans"><strong>Rentabilidade não corrige arquitetura fraca.</strong></p>
-
-        <div class="sep sans">* * *</div>
-
-        <p class="section-title sans">O que é INTERVENÇÃO</p>
-        <p class="sans">
-          INTERVENÇÃO é uma <strong>auditoria estratégica integral</strong> da sua estrutura patrimonial.
-        </p>
-
-        <p class="sans">
-          Eu analiso:
-        </p>
-
-        <ul class="bullets sans">
-          <li><span class="dot"></span><div><strong>100% da sua carteira</strong></div></li>
-          <li><span class="dot"></span><div><strong>100% das suas instituições</strong></div></li>
-          <li><span class="dot"></span><div><strong>100% da sua exposição jurisdicional</strong></div></li>
-          <li><span class="dot"></span><div><strong>100% da sua estrutura societária</strong></div></li>
-        </ul>
-
-        <p class="sans" style="margin-top:14px;">
-          E entrego:
-        </p>
-
-        <ul class="bullets sans">
-          <li><span class="dot"></span><div><strong>Um diagnóstico claro</strong></div></li>
-          <li><span class="dot"></span><div><strong>Um mapa de vulnerabilidade</strong></div></li>
-          <li><span class="dot"></span><div><strong>Um plano de ação estruturado</strong></div></li>
-        </ul>
-
-        <p class="sans">
-          Sem conflito de interesse. Sem venda de produto. Sem agenda oculta.
-        </p>
-
-        <div class="sep sans">* * *</div>
-
-        <p class="section-title sans">Para quem é</p>
-        <ul class="bullets sans">
-          <li><span class="dot"></span><div><strong>Empresários e investidores</strong> que já acumularam capital relevante</div></li>
-          <li><span class="dot"></span><div>Quem não quer depender apenas do sistema local</div></li>
-          <li><span class="dot"></span><div>Quem quer estrutura, não promessa</div></li>
-          <li><span class="dot"></span><div>Quem sente que algo está mal dimensionado</div></li>
-        </ul>
-
-        <div class="sep sans">* * *</div>
-
-        <p class="section-title sans">Para quem não é</p>
-        <ul class="bullets sans">
-          <li><span class="dot"></span><div>Quem quer recomendação de fundo</div></li>
-          <li><span class="dot"></span><div>Quem quer comparar CDI</div></li>
-          <li><span class="dot"></span><div>Quem busca dica de ETF</div></li>
-          <li><span class="dot"></span><div>Quem não tem patrimônio relevante</div></li>
-        </ul>
-
-        <div class="sep sans">* * *</div>
-
-        <p class="section-title sans">A oferta</p>
-        <p class="sans"><strong>🔱 INTERVENÇÃO</strong><br/>Auditoria Integral de Estrutura Patrimonial</p>
-
-        <ul class="bullets sans">
-          <li><span class="dot"></span><div>Coleta estratégica de dados estruturais</div></li>
-          <li><span class="dot"></span><div>Análise profunda em 6 pilares críticos</div></li>
-          <li><span class="dot"></span><div>Relatório institucional detalhado</div></li>
-          <li><span class="dot"></span><div>Mapa visual de exposição e vulnerabilidade</div></li>
-          <li><span class="dot"></span><div>Plano de intervenção em 3 fases</div></li>
-          <li><span class="dot"></span><div>Call estratégica 1:1 de até 90 minutos</div></li>
-        </ul>
-
-        <div class="pricebox sans">
-          <div class="price-row">
-            <div class="left">Apenas plano (mantém estrutura atual)</div>
-            <div class="right">R$ 2.500</div>
-          </div>
-          <div class="price-row">
-            <div class="left">Se decidir estruturar comigo após</div>
-            <div class="right">R$ 1.500</div>
-          </div>
-          <p class="fine">Sem vínculo forçado. Sem taxa escondida. Você escolhe.</p>
-        </div>
-
-        <div class="sep sans">* * *</div>
-
-        <p class="section-title sans">A chamada final</p>
-        <p class="sans">
-          “Se você já acumulou capital relevante e sente que sua estrutura não acompanha seu crescimento,
-          talvez seja hora de uma intervenção.”
-        </p>
-        <p class="fine sans">Aplicação obrigatória. Vagas limitadas a 5–10 por mês.</p>
-
-        <div class="cta sans">
-          <a class="btn btn-primary" href="#form">Solicitar INTERVENÇÃO</a>
-          <a class="btn" href="#form">Aplicar agora</a>
-        </div>
-
-        <!-- FORM -->
-        <div id="form" class="form sans">
-          <div class="section-title" style="margin:0;">Aplicação</div>
-
-          <form id="appForm">
-            <div class="row">
-              <div>
-                <label for="nome">Nome completo</label>
-                <input id="nome" name="nome" type="text" required />
-              </div>
-              <div>
-                <label for="email">Email</label>
-                <input id="email" name="email" type="email" required />
-              </div>
-            </div>
-
-            <div class="row">
-              <div>
-                <label for="telefone">Telefone (WhatsApp)</label>
-                <input id="telefone" name="telefone" type="tel" required />
-              </div>
-              <div>
-                <label for="perfil">Perfil</label>
-                <select id="perfil" name="perfil" required>
-                  <option value="" disabled selected>Selecione</option>
-                  <option>Empresário</option>
-                  <option>CLT</option>
-                  <option>Autônomo / PJ</option>
-                </select>
-              </div>
-            </div>
-
-            <div class="row">
-              <div>
-                <label for="investe">Investe?</label>
-                <select id="investe" name="investe" required>
-                  <option value="" disabled selected>Selecione</option>
-                  <option>Ainda não</option>
-                  <option>Sim, no Brasil</option>
-                  <option>Internacional</option>
-                </select>
-              </div>
-              <div>
-                <label for="patrimonio">Patrimônio (faixa)</label>
-                <select id="patrimonio" name="patrimonio" required>
-                  <option value="" disabled selected>Selecione</option>
-                  <option>R$ 500k – R$ 1M</option>
-                  <option>R$ 1M – R$ 3M</option>
-                  <option>R$ 3M – R$ 10M</option>
-                  <option>R$ 10M+</option>
-                </select>
-              </div>
-            </div>
-
-            <div>
-              <label for="contexto">Em uma linha: onde você suspeita vulnerabilidade?</label>
-              <textarea id="contexto" name="contexto" required></textarea>
-            </div>
-
-            <button class="btn btn-primary" type="submit" id="submitBtn">Enviar aplicação</button>
-
-            <div class="footer">
-              Envio via backend recomendado (não exponha credenciais no frontend).
-              Após o envio, você pode redirecionar para WhatsApp.
-            </div>
-          </form>
+        <div class="para-quem-col nao">
+          <h3>Para quem não é</h3>
+          <p>Quem está começando a acumular e busca orientação básica de investimentos.</p>
+          <p>Quem quer comparar fundos, ETFs ou rentabilidade de produtos.</p>
+          <p>Quem busca apenas uma segunda opinião pontual, sem processo.</p>
         </div>
 
       </div>
-    </div>
-  </div>
 
-  <script>
-    // CONFIG
-    const BACKEND_ENDPOINT = ""; // ex.: https://seusite.com/api/apply
-    const WHATSAPP_URL = "https://api.whatsapp.com/send/?phone=5511983711418&text=Quero+falar+sobre+INTERVEN%C3%87%C3%83O.&type=phone_number&app_absent=0";
+    </section>
 
-    const form = document.getElementById("appForm");
-    const btn = document.getElementById("submitBtn");
+    <!-- =========================================================
+         SEPARADOR
+    ========================================================= -->
+    <div class="sep" aria-hidden="true">* &nbsp; * &nbsp; *</div>
 
-    form.addEventListener("submit", async (e) => {
-      e.preventDefault();
+    <!-- =========================================================
+         OFERTA
+    ========================================================= -->
+    <section aria-label="Oferta">
 
-      const payload = Object.fromEntries(new FormData(form).entries());
-      btn.disabled = true;
-      btn.textContent = "Enviando...";
+      <div class="oferta">
 
-      try {
-        if (!BACKEND_ENDPOINT) {
-          // Sem backend: não salva. Redireciona direto.
-          window.location.href = WHATSAPP_URL;
-          return;
-        }
+        <div class="oferta-titulo">
+          🔱 INTERVENÇÃO
+        </div>
+        <h2>Auditoria Integral de Estrutura Patrimonial</h2>
 
-        const res = await fetch(BACKEND_ENDPOINT, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(payload),
-        });
+        <div class="oferta-inclui">
+          <h3>Inclui</h3>
+          <ul>
+            <li>Coleta estratégica de dados</li>
+            <li>Análise em 6 pilares estruturais</li>
+            <li>Relatório institucional completo</li>
+            <li>Plano de ação em 3 fases</li>
+            <li>Call estratégica 1:1 — 90 minutos</li>
+          </ul>
+        </div>
 
-        if (!res.ok) throw new Error("Falha no envio");
-        window.location.href = WHATSAPP_URL;
+        <div class="investimento">
+          <h3>Investimento</h3>
 
-      } catch (err) {
-        alert("Não foi possível enviar. Tente novamente.");
-        btn.disabled = false;
-        btn.textContent = "Enviar aplicação";
-      }
-    });
-  </script>
+          <div class="preco-item">
+            <span class="preco-valor">R$ 2.500</span>
+          </div>
+
+          <p class="sem-vinculo">Sem vínculo forçado.</p>
+        </div>
+
+      </div>
+
+    </section>
+
+    <!-- =========================================================
+         SEPARADOR
+    ========================================================= -->
+    <div class="sep" aria-hidden="true">* &nbsp; * &nbsp; *</div>
+
+    <!-- =========================================================
+         CHAMADA FINAL
+    ========================================================= -->
+    <section class="chamada-final" aria-label="Chamada final">
+
+      <blockquote>
+        Se você já acumulou capital relevante e sente que sua estrutura
+        não acompanha seu crescimento, talvez seja hora de uma intervenção.
+      </blockquote>
+
+      <a href="#" class="btn-solicitar" role="button">
+        Solicitar INTERVENÇÃO
+      </a>
+
+      <p class="aplicacao-nota">Aplicação obrigatória</p>
+
+    </section>
+
+    <!-- =========================================================
+         FOOTER
+    ========================================================= -->
+    <footer>
+      <p>
+        🔱 &nbsp; INTERVENÇÃO
+        <span class="gold-dot">●</span>
+        Auditoria Integral de Estrutura Patrimonial
+      </p>
+      <p>Confidencial · Uso restrito · Aplicação obrigatória</p>
+    </footer>
+
+  </main>
+
 </body>
 </html>
