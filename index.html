@@ -3,663 +3,819 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="robots" content="noindex, nofollow" />
-  <title>Aplicação Privada</title>
-
-  <!-- Fontes -->
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+  <title>INTERVENÇÃO — Auditoria Integral de Estrutura Patrimonial</title>
 
   <style>
-    /* ─── Reset & Tokens ─────────────────────────────────────────── */
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
+    /* ============================================================
+       TOKENS & RESET
+    ============================================================ */
     :root {
-      --bg:        #0b0b0e;
-      --surface:   #111117;
-      --border:    #222230;
-      --gold:      #c9a96e;
-      --gold-dim:  #9a7a4a;
-      --text:      #e8e4dd;
-      --muted:     #6b6875;
-      --error:     #c0392b;
-      --radius:    6px;
-      --max-w:     520px;
-      --transition: 0.3s cubic-bezier(.4,0,.2,1);
+      --bg:          #0B0B0D;
+      --surface:     #111116;
+      --border:      rgba(191, 163, 111, 0.12);
+      --gold:        #BFA36F;
+      --gold-dim:    rgba(191, 163, 111, 0.45);
+      --text-primary:#F0EDE6;
+      --text-body:   #C8C3BA;
+      --text-muted:  #8A857D;
+      --serif:       Georgia, 'Times New Roman', Times, serif;
+      --sans:        'Helvetica Neue', Helvetica, Arial, sans-serif;
+      --col:         720px;
+      --pad-x:       2.5rem;
     }
 
-    html, body {
-      min-height: 100%;
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html {
+      font-size: 17px;
+      -webkit-font-smoothing: antialiased;
+      text-rendering: optimizeLegibility;
+    }
+
+    body {
       background: var(--bg);
-      color: var(--text);
-      font-family: 'DM Sans', sans-serif;
-      font-weight: 300;
+      color: var(--text-body);
+      font-family: var(--sans);
+      line-height: 1.75;
+      min-height: 100vh;
+    }
+
+    /* ============================================================
+       LAYOUT — COLUMN
+    ============================================================ */
+    .carta {
+      max-width: var(--col);
+      margin: 0 auto;
+      padding: 0 var(--pad-x) 8rem;
+    }
+
+    /* ============================================================
+       TOPO / HEADER
+    ============================================================ */
+    header {
+      border-bottom: 1px solid var(--border);
+      padding: 2.6rem 0 1.6rem;
+      margin-bottom: 5rem;
+    }
+
+    .header-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .tag-intervencao {
+      font-family: var(--sans);
+      font-size: 0.68rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--gold-dim);
+      display: flex;
+      align-items: center;
+      gap: 0.45rem;
+    }
+
+    .tag-intervencao span.trident {
+      font-size: 0.85rem;
+      color: var(--gold);
+      opacity: 0.7;
+    }
+
+    .pagina-label {
+      font-family: var(--sans);
+      font-size: 0.62rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+    }
+
+    /* ============================================================
+       HEADLINE
+    ============================================================ */
+    .headline-block {
+      margin-bottom: 4.5rem;
+    }
+
+    h1 {
+      font-family: var(--serif);
+      font-size: clamp(1.65rem, 4vw, 2.35rem);
+      font-weight: 400;
+      color: var(--text-primary);
+      line-height: 1.45;
+      letter-spacing: -0.01em;
+      margin-bottom: 2rem;
+    }
+
+    .subheadline {
+      font-family: var(--sans);
+      font-size: 0.75rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--gold-dim);
+      margin-bottom: 2.2rem;
       line-height: 1.6;
     }
 
-    /* Grain texture */
-    body::before {
-      content: '';
-      position: fixed; inset: 0;
-      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
-      pointer-events: none; z-index: 0;
-    }
-
-    /* ─── Layout ──────────────────────────────────────────────────── */
-    .shell {
-      position: relative; z-index: 1;
-      min-height: 100svh;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      padding: 32px 20px;
-    }
-
-    .card {
-      width: 100%;
-      max-width: var(--max-w);
-      background: var(--surface);
+    .badge {
+      display: inline-block;
       border: 1px solid var(--border);
-      border-radius: 12px;
-      padding: clamp(28px, 6vw, 52px);
-      box-shadow: 0 32px 80px rgba(0,0,0,.5);
+      border-left: 2px solid var(--gold-dim);
+      padding: 0.45rem 0.9rem;
+      font-family: var(--sans);
+      font-size: 0.65rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      background: rgba(191, 163, 111, 0.03);
     }
 
-    /* ─── Logo / Header ───────────────────────────────────────────── */
-    .brand {
+    /* ============================================================
+       SEPARADOR
+    ============================================================ */
+    .sep {
+      text-align: center;
+      color: var(--text-muted);
+      font-size: 0.7rem;
+      letter-spacing: 0.6em;
+      margin: 4rem 0;
+      opacity: 0.5;
+    }
+
+    /* ============================================================
+       AVISO INSTITUCIONAL
+    ============================================================ */
+    .aviso {
+      border-left: 1px solid var(--gold-dim);
+      padding: 1.8rem 2rem;
+      background: rgba(191, 163, 111, 0.025);
+      margin-bottom: 0;
+    }
+
+    .aviso-titulo {
+      font-family: var(--sans);
+      font-size: 0.62rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--gold-dim);
+      margin-bottom: 1.2rem;
+    }
+
+    .aviso p {
+      font-family: var(--sans);
+      font-size: 0.88rem;
+      color: var(--text-body);
+      line-height: 1.8;
+      margin-bottom: 0.9rem;
+    }
+
+    .aviso p:last-child { margin-bottom: 0; }
+
+    /* ============================================================
+       CORPO DA CARTA
+    ============================================================ */
+    .corpo {
+      margin-bottom: 0;
+    }
+
+    .corpo p {
+      font-family: var(--sans);
+      font-size: 0.94rem;
+      color: var(--text-body);
+      line-height: 1.9;
+      margin-bottom: 1.6rem;
+    }
+
+    .corpo p em {
+      font-family: var(--serif);
+      font-style: italic;
+      color: var(--text-primary);
+      font-size: 1rem;
+    }
+
+    /* Vulnerabilidades */
+    .vulnerabilidades {
+      margin: 2.5rem 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .vulnerabilidades li {
+      font-family: var(--sans);
+      font-size: 0.85rem;
+      color: var(--text-body);
+      line-height: 1.75;
+      padding: 0.7rem 0;
+      border-bottom: 1px solid rgba(255,255,255,0.04);
+      display: flex;
+      align-items: flex-start;
+      gap: 1rem;
+    }
+
+    .vulnerabilidades li::before {
+      content: '—';
+      color: var(--gold-dim);
+      flex-shrink: 0;
+      margin-top: 0.05em;
+      font-size: 0.8rem;
+    }
+
+    /* ============================================================
+       BLOCO O QUE É
+    ============================================================ */
+    .o-que-e h2 {
+      font-family: var(--serif);
+      font-size: 1.45rem;
+      font-weight: 400;
+      color: var(--text-primary);
+      line-height: 1.5;
+      margin-bottom: 1.8rem;
+      letter-spacing: -0.01em;
+    }
+
+    .o-que-e p {
+      font-family: var(--sans);
+      font-size: 0.9rem;
+      color: var(--text-body);
+      line-height: 1.9;
+      margin-bottom: 1.4rem;
+    }
+
+    /* Listas do serviço */
+    .servico-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2.5rem 3rem;
+      margin: 2.5rem 0;
+    }
+
+    .servico-col h3 {
+      font-family: var(--sans);
+      font-size: 0.6rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--gold-dim);
+      margin-bottom: 1.1rem;
+    }
+
+    .servico-col ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    .servico-col ul li {
+      font-family: var(--sans);
+      font-size: 0.83rem;
+      color: var(--text-body);
+      line-height: 1.75;
+      padding: 0.3rem 0;
+      border-bottom: 1px solid rgba(255,255,255,0.03);
+      display: flex;
+      align-items: flex-start;
+      gap: 0.7rem;
+    }
+
+    .servico-col ul li::before {
+      content: '—';
+      color: var(--gold-dim);
+      flex-shrink: 0;
+      font-size: 0.75rem;
+    }
+
+    .sem-conflito {
+      font-family: var(--sans);
+      font-size: 0.78rem;
+      letter-spacing: 0.12em;
+      color: var(--text-muted);
+      margin-top: 2rem;
+      line-height: 1.9;
+    }
+
+    .sem-conflito span {
+      display: inline-block;
+      margin-right: 1.5rem;
+    }
+
+    .sem-conflito span::before {
+      content: '· ';
+      color: var(--gold-dim);
+    }
+
+    /* ============================================================
+       PARA QUEM É
+    ============================================================ */
+    .para-quem {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2.5rem 3rem;
+    }
+
+    .para-quem-col h3 {
+      font-family: var(--sans);
+      font-size: 0.6rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      margin-bottom: 1.2rem;
+    }
+
+    .para-quem-col.sim h3 { color: var(--gold-dim); }
+    .para-quem-col.nao h3 { color: var(--text-muted); }
+
+    .para-quem-col p {
+      font-family: var(--sans);
+      font-size: 0.85rem;
+      color: var(--text-body);
+      line-height: 1.85;
+      margin-bottom: 0.75rem;
+      padding-left: 1rem;
+      border-left: 1px solid rgba(255,255,255,0.06);
+    }
+
+    .para-quem-col.nao p {
+      color: var(--text-muted);
+    }
+
+    /* ============================================================
+       OFERTA
+    ============================================================ */
+    .oferta {
+      border: 1px solid var(--border);
+      padding: 3rem 2.8rem;
+      background: rgba(191, 163, 111, 0.02);
+      position: relative;
+    }
+
+    .oferta::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--gold-dim), transparent);
+      opacity: 0.4;
+    }
+
+    .oferta-titulo {
+      font-family: var(--sans);
+      font-size: 0.62rem;
+      letter-spacing: 0.26em;
+      text-transform: uppercase;
+      color: var(--gold-dim);
+      margin-bottom: 0.5rem;
       display: flex;
       align-items: center;
-      gap: 10px;
-      margin-bottom: 40px;
-    }
-    .brand-mark {
-      width: 28px; height: 28px;
-      border: 1.5px solid #c0392b;
-      background: transparent;
-      border-radius: 50%;
-      display: grid; place-items: center;
-    }
-    .brand-mark svg { width: 12px; fill: #c0392b; }
-    .brand-name {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 1.05rem;
-      letter-spacing: .18em;
-      text-transform: uppercase;
-      color: var(--gold);
+      gap: 0.5rem;
     }
 
-    /* ─── Progress ────────────────────────────────────────────────── */
-    .progress-track {
-      height: 2px;
-      background: var(--border);
-      border-radius: 2px;
-      margin-bottom: 36px;
+    .oferta h2 {
+      font-family: var(--serif);
+      font-size: 1.3rem;
+      font-weight: 400;
+      color: var(--text-primary);
+      letter-spacing: -0.01em;
+      margin-bottom: 2.5rem;
+      line-height: 1.45;
+    }
+
+    .oferta-inclui {
+      margin-bottom: 2.5rem;
+    }
+
+    .oferta-inclui h3 {
+      font-family: var(--sans);
+      font-size: 0.6rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 1rem;
+    }
+
+    .oferta-inclui ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    .oferta-inclui ul li {
+      font-family: var(--sans);
+      font-size: 0.85rem;
+      color: var(--text-body);
+      line-height: 1.75;
+      padding: 0.4rem 0;
+      border-bottom: 1px solid rgba(255,255,255,0.03);
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .oferta-inclui ul li::before {
+      content: '—';
+      color: var(--gold-dim);
+      font-size: 0.75rem;
+    }
+
+    .investimento {
+      border-top: 1px solid var(--border);
+      padding-top: 2rem;
+    }
+
+    .investimento h3 {
+      font-family: var(--sans);
+      font-size: 0.6rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 1.2rem;
+    }
+
+    .preco-item {
+      display: flex;
+      align-items: baseline;
+      gap: 1rem;
+      margin-bottom: 0.9rem;
+    }
+
+    .preco-valor {
+      font-family: var(--serif);
+      font-size: 1.35rem;
+      color: var(--text-primary);
+      font-weight: 400;
+    }
+
+    .preco-desc {
+      font-family: var(--sans);
+      font-size: 0.78rem;
+      color: var(--text-muted);
+    }
+
+    .sem-vinculo {
+      margin-top: 1.5rem;
+      font-family: var(--sans);
+      font-size: 0.72rem;
+      letter-spacing: 0.1em;
+      color: var(--text-muted);
+      font-style: italic;
+    }
+
+    /* ============================================================
+       CHAMADA FINAL
+    ============================================================ */
+    .chamada-final {
+      text-align: center;
+      padding: 1rem 0;
+    }
+
+    .chamada-final blockquote {
+      font-family: var(--serif);
+      font-size: clamp(1.1rem, 2.5vw, 1.4rem);
+      font-weight: 400;
+      color: var(--text-primary);
+      line-height: 1.6;
+      letter-spacing: -0.01em;
+      max-width: 560px;
+      margin: 0 auto 3rem;
+      font-style: italic;
+    }
+
+    .btn-solicitar {
+      display: inline-block;
+      border: 1px solid var(--gold-dim);
+      padding: 1rem 2.8rem;
+      font-family: var(--sans);
+      font-size: 0.7rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--gold-dim);
+      text-decoration: none;
+      background: transparent;
+      cursor: pointer;
+      transition: background 0.3s ease, color 0.3s ease;
+      position: relative;
       overflow: hidden;
     }
-    .progress-fill {
-      height: 100%;
-      background: linear-gradient(90deg, var(--gold-dim), var(--gold));
-      border-radius: 2px;
-      transition: width 0.5s cubic-bezier(.4,0,.2,1);
-    }
-    .step-counter {
-      font-size: .72rem;
-      letter-spacing: .12em;
-      color: var(--muted);
-      text-transform: uppercase;
-      margin-bottom: 10px;
-    }
 
-    /* ─── Question ────────────────────────────────────────────────── */
-    .question {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: clamp(1.5rem, 4vw, 2rem);
-      font-weight: 300;
-      line-height: 1.3;
-      margin-bottom: 28px;
-      color: var(--text);
-    }
-
-    /* ─── Inputs ──────────────────────────────────────────────────── */
-    .input-wrap { position: relative; }
-
-    input[type="text"],
-    input[type="email"],
-    input[type="tel"] {
-      width: 100%;
-      background: transparent;
-      border: none;
-      border-bottom: 1.5px solid var(--border);
-      color: var(--text);
-      font-family: 'DM Sans', sans-serif;
-      font-size: 1.05rem;
-      font-weight: 300;
-      padding: 10px 0 10px;
-      outline: none;
-      transition: border-color var(--transition);
-      border-radius: 0;
-    }
-    input:focus { border-bottom-color: var(--gold); }
-    input::placeholder { color: var(--muted); }
-    input.invalid { border-bottom-color: var(--error) !important; }
-
-    /* ─── Option cards ────────────────────────────────────────────── */
-    .options {
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-    }
-    .option {
-      display: flex;
-      align-items: center;
-      gap: 14px;
-      padding: 14px 18px;
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      cursor: pointer;
-      transition: border-color var(--transition), background var(--transition);
-      user-select: none;
-    }
-    .option:hover { border-color: var(--gold-dim); background: rgba(201,169,110,.04); }
-    .option.selected {
-      border-color: var(--gold);
-      background: rgba(201,169,110,.08);
-    }
-    .option-dot {
-      width: 18px; height: 18px;
-      border-radius: 50%;
-      border: 1.5px solid var(--border);
-      flex-shrink: 0;
-      transition: border-color var(--transition), background var(--transition);
-      display: grid; place-items: center;
-    }
-    .option.selected .option-dot {
-      border-color: var(--gold);
-      background: var(--gold);
-    }
-    .option.selected .option-dot::after {
+    .btn-solicitar::after {
       content: '';
-      width: 6px; height: 6px;
-      border-radius: 50%;
-      background: var(--bg);
-    }
-    .option-label { font-size: .95rem; }
-
-    /* ─── Error ───────────────────────────────────────────────────── */
-    .field-error {
-      font-size: .78rem;
-      color: var(--error);
-      margin-top: 6px;
-      min-height: 18px;
-      transition: opacity var(--transition);
+      position: absolute;
+      inset: 0;
+      background: rgba(191, 163, 111, 0.06);
+      opacity: 0;
+      transition: opacity 0.3s ease;
     }
 
-    /* ─── Buttons ─────────────────────────────────────────────────── */
-    .btn-row {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-top: 36px;
-      gap: 12px;
-    }
+    .btn-solicitar:hover::after { opacity: 1; }
 
-    .btn {
-      font-family: 'DM Sans', sans-serif;
-      font-size: .82rem;
-      letter-spacing: .1em;
+    .aplicacao-nota {
+      margin-top: 1.5rem;
+      font-family: var(--sans);
+      font-size: 0.65rem;
+      letter-spacing: 0.14em;
       text-transform: uppercase;
-      cursor: pointer;
-      border-radius: var(--radius);
-      border: none;
-      transition: opacity var(--transition), transform var(--transition);
-      padding: 12px 28px;
-    }
-    .btn:active { transform: scale(.97); }
-    .btn:disabled { opacity: .35; cursor: not-allowed; }
-
-    .btn-primary {
-      background: var(--gold);
-      color: #0b0b0e;
-      font-weight: 500;
-      min-width: 140px;
-    }
-    .btn-primary:hover:not(:disabled) { opacity: .88; }
-
-    .btn-ghost {
-      background: transparent;
-      color: var(--muted);
-      border: 1px solid var(--border);
-    }
-    .btn-ghost:hover { color: var(--text); border-color: var(--muted); }
-
-    /* ─── Step visibility ─────────────────────────────────────────── */
-    .step { display: none; }
-    .step.active {
-      display: block;
-      animation: fadeUp .35s ease both;
-    }
-    @keyframes fadeUp {
-      from { opacity: 0; transform: translateY(14px); }
-      to   { opacity: 1; transform: translateY(0); }
+      color: var(--text-muted);
     }
 
-    /* ─── Final screens ───────────────────────────────────────────── */
-    .final-screen {
+    /* ============================================================
+       FOOTER
+    ============================================================ */
+    footer {
+      border-top: 1px solid var(--border);
+      margin-top: 5rem;
+      padding: 2.5rem 0 0;
       text-align: center;
-      padding: 12px 0;
     }
-    .final-icon {
-      width: 56px; height: 56px;
-      border: 1.5px solid var(--gold);
-      border-radius: 50%;
-      display: grid; place-items: center;
-      margin: 0 auto 24px;
-    }
-    .final-icon svg { width: 22px; stroke: var(--gold); fill: none; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
-    .final-title {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 1.7rem;
-      font-weight: 300;
-      margin-bottom: 12px;
-    }
-    .final-subtitle { color: var(--muted); font-size: .92rem; max-width: 340px; margin: 0 auto 28px; }
 
-    .spinner {
-      width: 20px; height: 20px;
-      border: 2px solid rgba(10,10,10,.3);
-      border-top-color: #0b0b0e;
-      border-radius: 50%;
-      animation: spin .7s linear infinite;
-      display: inline-block; vertical-align: middle;
+    footer p {
+      font-family: var(--sans);
+      font-size: 0.65rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      line-height: 2;
     }
-    @keyframes spin { to { transform: rotate(360deg); } }
 
-    /* Honeypot — completamente invisível */
-    .hp-field { opacity: 0; position: absolute; top: -9999px; left: -9999px; height: 0; width: 0; overflow: hidden; }
+    .gold-dot {
+      color: var(--gold);
+      opacity: 0.5;
+      font-size: 0.5rem;
+      vertical-align: middle;
+    }
 
-    /* ─── Responsive ──────────────────────────────────────────────── */
-    @media (max-width: 480px) {
-      .card { border-radius: 0; border-left: none; border-right: none; min-height: 100svh; }
-      .btn-row { flex-direction: column-reverse; }
-      .btn { width: 100%; text-align: center; }
+    /* ============================================================
+       SECTION LABEL
+    ============================================================ */
+    .section-label {
+      font-family: var(--sans);
+      font-size: 0.6rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 1.8rem;
+      opacity: 0.7;
+    }
+
+    /* ============================================================
+       RESPONSIVE
+    ============================================================ */
+    @media (max-width: 680px) {
+      :root { --pad-x: 1.4rem; }
+
+      .servico-grid,
+      .para-quem {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+      }
+
+      .oferta { padding: 2rem 1.6rem; }
+
+      h1 { font-size: 1.5rem; }
+
+      .preco-valor { font-size: 1.1rem; }
+
+      .sep { margin: 3rem 0; }
+    }
+
+    @media (max-width: 400px) {
+      :root { --pad-x: 1rem; }
     }
   </style>
 </head>
-
 <body>
-<div class="shell">
-  <div class="card">
 
-    <!-- Marca -->
-    <div class="brand">
-      <div class="brand-mark">
-        <svg viewBox="0 0 12 12"><polygon points="6,1 11,10 1,10"/></svg>
+  <main class="carta">
+
+    <!-- =========================================================
+         HEADER
+    ========================================================= -->
+    <header>
+      <div class="header-row">
+        <div class="tag-intervencao">
+          <span class="trident">🔱</span>
+          INTERVENÇÃO
+        </div>
+        <div class="pagina-label">Página 1 de 1</div>
       </div>
-      <span class="brand-name">Alquimista</span>
-    </div>
+    </header>
 
-    <!-- Barra de progresso -->
-    <div class="progress-track">
-      <div class="progress-fill" id="progressFill" style="width:0%"></div>
-    </div>
+    <!-- =========================================================
+         HEADLINE
+    ========================================================= -->
+    <section class="headline-block">
+      <h1>
+        Você pode estar ganhando dinheiro…<br />
+        e ainda assim estar estruturalmente vulnerável.
+      </h1>
 
-    <!-- Formulário multi-step -->
-    <form id="quizForm" novalidate autocomplete="off">
+      <p class="subheadline">
+        INTERVENÇÃO não é sobre performance.<br />
+        É sobre vulnerabilidade invisível.
+      </p>
 
-      <!-- Honeypot anti-spam -->
-      <div class="hp-field" aria-hidden="true">
-        <label for="company">Empresa</label>
-        <input type="text" id="company" name="company" tabindex="-1" autocomplete="off" />
+      <span class="badge">5–10 análises disponíveis por mês</span>
+    </section>
+
+    <!-- =========================================================
+         SEPARADOR
+    ========================================================= -->
+    <div class="sep" aria-hidden="true">* &nbsp; * &nbsp; *</div>
+
+    <!-- =========================================================
+         AVISO INSTITUCIONAL
+    ========================================================= -->
+    <section aria-label="Aviso institucional">
+      <div class="aviso">
+        <div class="aviso-titulo">Leia antes de continuar</div>
+        <p>
+          Isso é para quem já acumulou capital relevante — mas sabe (ou suspeita)
+          que a estrutura não acompanha.
+        </p>
+        <p>
+          Se você quer recomendação de fundo, comparar CDI ou dica de ETF,
+          esta página não é para você.
+        </p>
       </div>
+    </section>
 
-      <!-- ── Step 1: Nome ─────────────────────────────────────────── -->
-      <div class="step active" id="step-1">
-        <div class="step-counter">Passo 1 de 6</div>
-        <h2 class="question">Qual é o seu nome completo?</h2>
-        <div class="input-wrap">
-          <input type="text" id="nome" name="nome" placeholder="Seu nome" maxlength="120" autocomplete="name" />
-        </div>
-        <p class="field-error" id="err-nome"></p>
-        <div class="btn-row">
-          <span></span>
-          <button type="button" class="btn btn-primary" onclick="nextStep()">Continuar</button>
-        </div>
-      </div>
+    <!-- =========================================================
+         SEPARADOR
+    ========================================================= -->
+    <div class="sep" aria-hidden="true">* &nbsp; * &nbsp; *</div>
 
-      <!-- ── Step 2: Email ────────────────────────────────────────── -->
-      <div class="step" id="step-2">
-        <div class="step-counter">Passo 2 de 6</div>
-        <h2 class="question">Qual é o seu e-mail?</h2>
-        <div class="input-wrap">
-          <input type="email" id="email" name="email" placeholder="seu@email.com" maxlength="120" autocomplete="email" />
-        </div>
-        <p class="field-error" id="err-email"></p>
-        <div class="btn-row">
-          <button type="button" class="btn btn-ghost" onclick="prevStep()">Voltar</button>
-          <button type="button" class="btn btn-primary" onclick="nextStep()">Continuar</button>
-        </div>
-      </div>
+    <!-- =========================================================
+         CORPO DA CARTA
+    ========================================================= -->
+    <section class="corpo" aria-label="Narrativa">
 
-      <!-- ── Step 3: Telefone ─────────────────────────────────────── -->
-      <div class="step" id="step-3">
-        <div class="step-counter">Passo 3 de 6</div>
-        <h2 class="question">Seu telefone (com DDD)?</h2>
-        <div class="input-wrap">
-          <input type="tel" id="telefone" name="telefone" placeholder="+55 11 99999-9999" maxlength="25" autocomplete="tel" />
-        </div>
-        <p class="field-error" id="err-telefone"></p>
-        <div class="btn-row">
-          <button type="button" class="btn btn-ghost" onclick="prevStep()">Voltar</button>
-          <button type="button" class="btn btn-primary" onclick="nextStep()">Continuar</button>
-        </div>
-      </div>
+      <p>
+        A maioria dos empresários acredita que risco é rentabilidade.
+        <em>Não é.</em>
+      </p>
 
-      <!-- ── Step 4: Perfil ───────────────────────────────────────── -->
-      <div class="step" id="step-4">
-        <div class="step-counter">Passo 4 de 6</div>
-        <h2 class="question">Você é:</h2>
-        <div class="options" id="opts-perfil">
-          <div class="option" data-field="perfil" data-value="Empresário" onclick="selectOption(this)">
-            <div class="option-dot"></div>
-            <span class="option-label">Empresário</span>
-          </div>
-          <div class="option" data-field="perfil" data-value="CLT" onclick="selectOption(this)">
-            <div class="option-dot"></div>
-            <span class="option-label">CLT</span>
-          </div>
-          <div class="option" data-field="perfil" data-value="Autônomo (PJ)" onclick="selectOption(this)">
-            <div class="option-dot"></div>
-            <span class="option-label">Autônomo (PJ)</span>
-          </div>
-        </div>
-        <p class="field-error" id="err-perfil"></p>
-        <div class="btn-row">
-          <button type="button" class="btn btn-ghost" onclick="prevStep()">Voltar</button>
-          <button type="button" class="btn btn-primary" onclick="nextStep()">Continuar</button>
-        </div>
-      </div>
+      <p>
+        Risco é a distância entre o que você construiu e o que sobrevive
+        a uma crise real — regulatória, successória, fiscal, ou de relacionamento
+        institucional. Rentabilidade é uma métrica. Estrutura é uma condição.
+      </p>
 
-      <!-- ── Step 5: Investe ──────────────────────────────────────── -->
-      <div class="step" id="step-5">
-        <div class="step-counter">Passo 5 de 6</div>
-        <h2 class="question">Você investe?</h2>
-        <div class="options" id="opts-investe">
-          <div class="option" data-field="investe" data-value="Ainda não" onclick="selectOption(this)">
-            <div class="option-dot"></div>
-            <span class="option-label">Ainda não</span>
-          </div>
-          <div class="option" data-field="investe" data-value="Sim no Brasil" onclick="selectOption(this)">
-            <div class="option-dot"></div>
-            <span class="option-label">Sim, no Brasil</span>
-          </div>
-          <div class="option" data-field="investe" data-value="Internacional" onclick="selectOption(this)">
-            <div class="option-dot"></div>
-            <span class="option-label">Internacional</span>
-          </div>
-        </div>
-        <p class="field-error" id="err-investe"></p>
-        <div class="btn-row">
-          <button type="button" class="btn btn-ghost" onclick="prevStep()">Voltar</button>
-          <button type="button" class="btn btn-primary" onclick="nextStep()">Continuar</button>
-        </div>
-      </div>
+      <p>
+        As vulnerabilidades mais perigosas não aparecem nos extratos.
+        Elas aparecem quando já é tarde demais para agir.
+      </p>
 
-      <!-- ── Step 6: Patrimônio ───────────────────────────────────── -->
-      <div class="step" id="step-6">
-        <div class="step-counter">Passo 6 de 6</div>
-        <h2 class="question">Uma média do seu patrimônio:</h2>
-        <div class="options" id="opts-patrimonio">
-          <div class="option" data-field="patrimonio" data-value="< R$ 100 mil" onclick="selectOption(this)">
-            <div class="option-dot"></div>
-            <span class="option-label">&lt; R$ 100 mil</span>
-          </div>
-          <div class="option" data-field="patrimonio" data-value="R$ 100 mil – R$ 500 mil" onclick="selectOption(this)">
-            <div class="option-dot"></div>
-            <span class="option-label">R$ 100 mil – R$ 500 mil</span>
-          </div>
-          <div class="option" data-field="patrimonio" data-value="R$ 500 mil – R$ 2 milhões" onclick="selectOption(this)">
-            <div class="option-dot"></div>
-            <span class="option-label">R$ 500 mil – R$ 2 milhões</span>
-          </div>
-          <div class="option" data-field="patrimonio" data-value="R$ 2 – R$ 10 milhões" onclick="selectOption(this)">
-            <div class="option-dot"></div>
-            <span class="option-label">R$ 2 – R$ 10 milhões</span>
-          </div>
-          <div class="option" data-field="patrimonio" data-value="> R$ 10 milhões" onclick="selectOption(this)">
-            <div class="option-dot"></div>
-            <span class="option-label">&gt; R$ 10 milhões</span>
-          </div>
+      <div class="section-label">Vulnerabilidades mais comuns</div>
+
+      <ul class="vulnerabilidades">
+        <li>Concentração excessiva em uma única jurisdição</li>
+        <li>Dependência institucional — um único banco, uma única corretora</li>
+        <li>Confusão entre patrimônio pessoal (PF) e empresarial (PJ)</li>
+        <li>Falta de governança formal e sucessória</li>
+        <li>Estrutura montada por produto, não por arquitetura</li>
+      </ul>
+
+    </section>
+
+    <!-- =========================================================
+         SEPARADOR
+    ========================================================= -->
+    <div class="sep" aria-hidden="true">* &nbsp; * &nbsp; *</div>
+
+    <!-- =========================================================
+         O QUE É INTERVENÇÃO
+    ========================================================= -->
+    <section class="o-que-e" aria-label="O que é INTERVENÇÃO">
+
+      <h2>
+        INTERVENÇÃO é uma auditoria estratégica integral
+        da sua estrutura patrimonial.
+      </h2>
+
+      <div class="servico-grid">
+        <div class="servico-col">
+          <h3>Eu analiso</h3>
+          <ul>
+            <li>100% da sua carteira</li>
+            <li>100% das suas instituições</li>
+            <li>100% da sua exposição jurisdicional</li>
+            <li>100% da sua estrutura societária</li>
+          </ul>
         </div>
-        <p class="field-error" id="err-patrimonio"></p>
-        <div class="btn-row">
-          <button type="button" class="btn btn-ghost" onclick="prevStep()">Voltar</button>
-          <button type="button" class="btn btn-primary" id="btnSubmit" onclick="handleSubmit()">Enviar</button>
+        <div class="servico-col">
+          <h3>Eu entrego</h3>
+          <ul>
+            <li>Diagnóstico claro</li>
+            <li>Mapa de vulnerabilidade</li>
+            <li>Plano de ação estruturado</li>
+          </ul>
         </div>
       </div>
 
-      <!-- ── Tela de loading ──────────────────────────────────────── -->
-      <div class="step" id="step-loading">
-        <div class="final-screen">
-          <div class="final-icon">
-            <div class="spinner"></div>
-          </div>
-          <p class="final-subtitle">Processando sua aplicação…</p>
+      <p class="sem-conflito">
+        <span>Sem conflito de interesse</span>
+        <span>Sem venda de produto</span>
+        <span>Sem agenda oculta</span>
+      </p>
+
+    </section>
+
+    <!-- =========================================================
+         SEPARADOR
+    ========================================================= -->
+    <div class="sep" aria-hidden="true">* &nbsp; * &nbsp; *</div>
+
+    <!-- =========================================================
+         PARA QUEM É / NÃO É
+    ========================================================= -->
+    <section aria-label="Para quem é">
+
+      <div class="section-label">Perfil</div>
+
+      <div class="para-quem">
+
+        <div class="para-quem-col sim">
+          <h3>Para quem é</h3>
+          <p>Empresários com patrimônio acumulado que percebem lacunas na estrutura.</p>
+          <p>Quem já tem assessoria, mas sente que as peças não estão conectadas.</p>
+          <p>Quem está crescendo e precisa que a estrutura cresça junto.</p>
+          <p>Quem pensa em sucessão, internacionalização ou reorganização societária.</p>
         </div>
+
+        <div class="para-quem-col nao">
+          <h3>Para quem não é</h3>
+          <p>Quem está começando a acumular e busca orientação básica de investimentos.</p>
+          <p>Quem quer comparar fundos, ETFs ou rentabilidade de produtos.</p>
+          <p>Quem busca apenas uma segunda opinião pontual, sem processo.</p>
+        </div>
+
       </div>
 
-      <!-- ── Tela: não qualificado ────────────────────────────────── -->
-      <div class="step" id="step-reject">
-        <div class="final-screen">
-          <div class="final-icon">
-            <svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg>
-          </div>
-          <h2 class="final-title">Obrigado.</h2>
-          <p class="final-subtitle">No momento, esta aplicação é apenas para perfis específicos. Agradecemos seu interesse.</p>
+    </section>
+
+    <!-- =========================================================
+         SEPARADOR
+    ========================================================= -->
+    <div class="sep" aria-hidden="true">* &nbsp; * &nbsp; *</div>
+
+    <!-- =========================================================
+         OFERTA
+    ========================================================= -->
+    <section aria-label="Oferta">
+
+      <div class="oferta">
+
+        <div class="oferta-titulo">
+          🔱 INTERVENÇÃO
         </div>
+        <h2>Auditoria Integral de Estrutura Patrimonial</h2>
+
+        <div class="oferta-inclui">
+          <h3>Inclui</h3>
+          <ul>
+            <li>Coleta estratégica de dados</li>
+            <li>Análise em 6 pilares estruturais</li>
+            <li>Relatório institucional completo</li>
+            <li>Plano de ação em 3 fases</li>
+            <li>Call estratégica 1:1 — 90 minutos</li>
+          </ul>
+        </div>
+
+
+
       </div>
 
-      <!-- ── Tela: erro de rede ────────────────────────────────────── -->
-      <div class="step" id="step-error">
-        <div class="final-screen">
-          <div class="final-icon">
-            <svg viewBox="0 0 24 24"><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/><circle cx="12" cy="12" r="10"/></svg>
-          </div>
-          <h2 class="final-title">Algo saiu errado.</h2>
-          <p class="final-subtitle" id="errMsg">Não foi possível enviar. Tente novamente.</p>
-          <button type="button" class="btn btn-primary" onclick="retrySubmit()">Tentar novamente</button>
-        </div>
-      </div>
+    </section>
 
-    </form>
-  </div>
-</div>
+    <!-- =========================================================
+         SEPARADOR
+    ========================================================= -->
+    <div class="sep" aria-hidden="true">* &nbsp; * &nbsp; *</div>
 
-<script>
-/* ─── Configuração ───────────────────────────────────────────────────
-   Qualificação e redirecionamento acontecem direto no frontend.
-   Nenhum backend necessário para este modo.
-────────────────────────────────────────────────────────────────────── */
-const WA_BASE_URL = 'https://api.whatsapp.com/send/?phone=5511983711418&type=phone_number&app_absent=0';
+    <!-- =========================================================
+         CHAMADA FINAL
+    ========================================================= -->
+    <section class="chamada-final" aria-label="Chamada final">
 
-/* ─── Score client-side ───────────────────────────────────────────── */
-function calcScore(a) {
-  const scorePerfil     = { 'Empresário': 30, 'Autônomo (PJ)': 20, 'CLT': 10 };
-  const scoreInveste    = { 'Internacional': 30, 'Sim no Brasil': 20, 'Ainda não': 5 };
-  const scorePatrimonio = {
-    '> R$ 10 milhões': 40, 'R$ 2 – R$ 10 milhões': 30,
-    'R$ 500 mil – R$ 2 milhões': 20, 'R$ 100 mil – R$ 500 mil': 10, '< R$ 100 mil': 0,
-  };
-  return (scorePerfil[a.perfil] || 0) + (scoreInveste[a.investe] || 0) + (scorePatrimonio[a.patrimonio] || 0);
-}
+      <blockquote>
+        Se você já acumulou capital relevante e sente que sua estrutura
+        não acompanha seu crescimento, talvez seja hora de uma intervenção.
+      </blockquote>
 
-/* ─── Estado ──────────────────────────────────────────────────────── */
-const TOTAL_STEPS = 6;
-let currentStep = 1;
-const answers = {};
+      <a href="https://api.whatsapp.com/send/?phone=5511983711418&type=phone_number&app_absent=0&text=Quero%20uma%20Interven%C3%A7%C3%A3o%20no%20meu%20Patrim%C3%B4nio!" class="btn-solicitar" target="_blank" rel="noopener noreferrer">
+        Solicitar INTERVENÇÃO
+      </a>
 
-/* ─── Validadores ─────────────────────────────────────────────────── */
-const validators = {
-  nome(v) {
-    if (!v || v.trim().length < 3)  return 'Informe seu nome completo (mínimo 3 caracteres).';
-    if (v.trim().length > 120)      return 'Nome muito longo.';
-    return '';
-  },
-  email(v) {
-    const re = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
-    if (!v || !re.test(v.trim())) return 'Informe um e-mail válido.';
-    if (v.length > 120)            return 'E-mail muito longo.';
-    return '';
-  },
-  telefone(v) {
-    const digits = (v || '').replace(/\D/g, '');
-    if (digits.length < 8)  return 'Informe um telefone válido com DDD.';
-    if (digits.length > 20) return 'Número muito longo.';
-    return '';
-  },
-  perfil(v)     { return v ? '' : 'Selecione uma opção.'; },
-  investe(v)    { return v ? '' : 'Selecione uma opção.'; },
-  patrimonio(v) { return v ? '' : 'Selecione uma opção.'; },
-};
+      <p class="aplicacao-nota">Aplicação obrigatória</p>
 
-const stepFields = { 1:'nome', 2:'email', 3:'telefone', 4:'perfil', 5:'investe', 6:'patrimonio' };
+    </section>
 
-/* ─── Progresso ───────────────────────────────────────────────────── */
-function updateProgress() {
-  document.getElementById('progressFill').style.width =
-    ((currentStep - 1) / TOTAL_STEPS * 100) + '%';
-}
+    <!-- =========================================================
+         FOOTER
+    ========================================================= -->
+    <footer>
+      <p>
+        🔱 &nbsp; INTERVENÇÃO
+        <span class="gold-dot">●</span>
+        Auditoria Integral de Estrutura Patrimonial
+      </p>
+      <p>Confidencial · Uso restrito · Aplicação obrigatória</p>
+    </footer>
 
-/* ─── Navegação ───────────────────────────────────────────────────── */
-function showStep(n) {
-  document.querySelectorAll('.step').forEach(el => el.classList.remove('active'));
-  const el = document.getElementById('step-' + n);
-  if (el) el.classList.add('active');
-}
+  </main>
 
-function nextStep() {
-  const field = stepFields[currentStep];
-  const value = getValue(field);
-  const err   = validators[field](value);
-
-  if (err) {
-    showError(field, err);
-    return;
-  }
-  clearError(field);
-  answers[field] = normalize(field, value);
-  currentStep++;
-  updateProgress();
-  showStep(currentStep);
-  focusFirst(currentStep);
-}
-
-function prevStep() {
-  if (currentStep <= 1) return;
-  currentStep--;
-  updateProgress();
-  showStep(currentStep);
-  focusFirst(currentStep);
-}
-
-/* ─── Helpers de campo ────────────────────────────────────────────── */
-function getValue(field) {
-  const el = document.getElementById(field);
-  if (el) return el.value;
-  // opção selecionada
-  const sel = document.querySelector(`.option.selected[data-field="${field}"]`);
-  return sel ? sel.dataset.value : '';
-}
-
-function normalize(field, value) {
-  if (field === 'telefone') return value.replace(/\D/g, '');
-  if (typeof value === 'string') return value.trim();
-  return value;
-}
-
-function focusFirst(step) {
-  const el = document.querySelector(`#step-${step} input`);
-  if (el) setTimeout(() => el.focus(), 60);
-}
-
-/* ─── Seleção de opções ───────────────────────────────────────────── */
-function selectOption(el) {
-  const field = el.dataset.field;
-  document.querySelectorAll(`.option[data-field="${field}"]`).forEach(o => o.classList.remove('selected'));
-  el.classList.add('selected');
-  clearError(field);
-}
-
-/* ─── Erros ───────────────────────────────────────────────────────── */
-function showError(field, msg) {
-  const el = document.getElementById('err-' + field);
-  if (el) el.textContent = msg;
-  const input = document.getElementById(field);
-  if (input) input.classList.add('invalid');
-}
-
-function clearError(field) {
-  const el = document.getElementById('err-' + field);
-  if (el) el.textContent = '';
-  const input = document.getElementById(field);
-  if (input) input.classList.remove('invalid');
-}
-
-/* ─── Envio (client-side — sem backend) ───────────────────────────── */
-function handleSubmit() {
-  const field = 'patrimonio';
-  const value = getValue(field);
-  const err   = validators[field](value);
-  if (err) { showError(field, err); return; }
-  answers[field] = value;
-
-  // Honeypot check
-  if (document.getElementById('company').value) return;
-
-  const btn = document.getElementById('btnSubmit');
-  btn.disabled = true;
-  btn.innerHTML = '<span class="spinner"></span>';
-
-  currentStep++;
-  updateProgress();
-  showStep('loading');
-
-  // Calcula score e redireciona após breve feedback visual
-  setTimeout(() => {
-    const score     = calcScore(answers);
-    const msg    = 'Quero falar com o Alquimista. Meu nome: ' + answers.nome
-                 + '. Perfil: ' + answers.perfil
-                 + '. Investe: ' + answers.investe
-                 + '. Patrimônio: ' + answers.patrimonio + '.';
-    const waLink = WA_BASE_URL + '&text=' + encodeURIComponent(msg);
-    window.location.href = waLink;
-  }, 900);
-}
-
-function retrySubmit() {
-  currentStep = 6;
-  updateProgress();
-  showStep(6);
-  document.getElementById('btnSubmit').disabled = false;
-  document.getElementById('btnSubmit').textContent = 'Enviar';
-}
-
-function showErrorScreen(msg) {
-  document.getElementById('errMsg').textContent = msg;
-  showStep('error');
-}
-
-/* ─── Enter para avançar ──────────────────────────────────────────── */
-document.addEventListener('keydown', e => {
-  if (e.key === 'Enter' && currentStep <= TOTAL_STEPS) {
-    e.preventDefault();
-    nextStep();
-  }
-});
-
-/* ─── Init ────────────────────────────────────────────────────────── */
-updateProgress();
-focusFirst(1);
-</script>
 </body>
 </html>
